@@ -1,4 +1,5 @@
 import urllib2
+import re
 
 def get_web_file(path):
     """Gets a file over http.
@@ -60,7 +61,7 @@ def indent_css(f, output):
     """
     line_count = get_line_count(f)
     f = open(f, 'r+')
-    output = open(output, 'w')
+    output = open(output, 'r+')
     for line in range(line_count):
         string = f.readline().rstrip()
         if len(string) > 0:
@@ -70,3 +71,68 @@ def indent_css(f, output):
                 output.write(string + "\n")
     output.close()
     f.close()
+
+def add_newlines(f, output, char):
+    """Adds line breaks after every occurance of a given character in a file.
+
+    Args:
+        f: string, path to input file.
+
+        output: string, path to output file.
+
+    Returns:
+        None.
+    """
+    line_count = get_line_count(f)
+    f = open(f, 'r+')
+    output = open(output, 'r+')
+    for line in range(line_count):
+        string = f.readline()
+        string = re.sub(char, char + '\n', string)
+        output.write(string)    
+
+def reformat_css(input_file, output_file):
+    """Reformats poorly written css. This function does not validate or fix errors in the code.
+    It only gives code the proper indentation. 
+
+    Args:
+        input_file: string, path to the input file.
+
+        output_file: string, path to where the reformatted css should be saved. If the target file
+        doesn't exist, a new file is created.
+
+    Returns:
+        None.
+    """
+    # Number of lines in the file.
+    line_count = get_line_count(input_file)
+
+    # Open source and target files.
+    f = open(input_file, 'r+')
+    output = open(output_file, 'w')
+
+    # Loop over every line in the file.
+    for line in range(line_count):
+        # Eliminate whitespace at the beginning and end of lines.
+        string = f.readline().strip()
+        # New lines after { 
+        string = re.sub('\{', '{\n', string)
+        # New lines after ; 
+        string = re.sub('; ', ';', string)
+        string = re.sub(';', ';\n', string)
+        # Eliminate whitespace before comments
+        string = re.sub('} /*', '}/*', string)
+        # New lines after } 
+        string = re.sub('\}', '}\n', string)
+        # New lines at the end of comments
+        string = re.sub('\*/', '*/\n', string)
+        # Write to the output file.
+        output.write(string)
+
+    # Close the files.
+    output.close()
+    f.close()
+
+    # Indent the css.
+    indent_css(output_file, output_file)
+
