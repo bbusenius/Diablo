@@ -1,12 +1,11 @@
 """
 This module has very basic math functions not found in the math module.
-Some of the functions here, require the math module. 
+Some of the functions here, require the math module.
 """
 
-__author__  = "Brad Busenius"
+__author__ = "Brad Busenius"
 __copyright__ = "Copyright 2014"
 __credits__ = ['Brad Busineus']
-__license__ = "unlicensed"
 __version__ = "0.0.1"
 __maintainer__ = "Brad Busenius"
 __status__ = "Testing"
@@ -17,19 +16,21 @@ def miles_to_feet(miles):
     """
     Converts a number of miles to feet.
 
-    Args: 
+    Args:
         miles: Number of miles we want to convert.
 
-    Returns: 
-        Integer or floating point number as the number of feet in the given miles.
+    Returns:
+        Integer or floating point number as the number of
+        feet in the given miles.
     """
-    
+
     return miles * 5280
 
 
 def total_seconds(hours, minutes, seconds):
     """
-    Returns the number of seconds in the given number of hours, minutes, and seconds.
+    Returns the number of seconds in the given number of hours, 
+    minutes, and seconds.
 
     Args:
         hours:
@@ -44,7 +45,7 @@ def total_seconds(hours, minutes, seconds):
     Returns:
         Integer, time in seconds.
     """
-    
+
     return (hours * 60 + minutes) * 60 + seconds
 
 
@@ -62,7 +63,7 @@ def rectangle_perimeter(width, height):
     Returns:
         Integer or float, perimeter of a rectangle.
     """
-    
+
     return width * 2 + height * 2
 
 
@@ -70,15 +71,15 @@ def rectangle_area(width, height):
     """Returns the area of a rectangle with the given width and height.
     
     Args:
-        width: 
+        width:
             Integer or float, width of the rectangle.
 
         height: Integer or float, height of the rectangle.
 
-    Returns: 
+    Returns:
         The area of a rectangle as an integer or float.
     """
-    
+
     return width * height
 
 
@@ -127,7 +128,7 @@ def compound_interest(principal, annual_rate, years):
         years: The number of years invested
 
     Returns:
-        A basic calculation of compound interest. 
+        A basic calculation of compound interest.
     """
     
     return principal * (1 + 0.01 * annual_rate) ** years
