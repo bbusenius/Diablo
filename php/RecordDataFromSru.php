@@ -48,7 +48,7 @@ class RecordDataFromSru extends QueryParsing
         return array(
             'operation' => 'searchRetrieve',
             'version' => '1.2',
-            'query' => 'localId%3d' . $this->getId(),
+            'query' => 'id%3d' . $this->getId(),
             'recordSchema' => 'opac',
             //'recordSchema' => 'marcxml',
         ); 
@@ -125,6 +125,7 @@ class RecordDataFromSru extends QueryParsing
      */ 
     public function getRecordXml(){ 
         $ch = curl_init();
+        //error_log($this->getDatabase() . $this->arrayToPost($this->curlQueryParams()));
         $curlConfig = array(
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_URL            => $this->getDatabase() . $this->arrayToPost($this->curlQueryParams()), //GET is faster than POST
@@ -151,14 +152,14 @@ class RecordDataFromSru extends QueryParsing
     public function getIsxn($type, $xmlObject) {
         $number = new LibraryRecordParsing(); 
         $isxn = array();
-        foreach($xmlObject[0]->identifier as $identifier){
-            if ($identifier->attributes() == $type) {
+        foreach($xmlObject->identifier as $identifier){
+            if (is_object($identifier) && $identifier->attributes() == $type) {
                 $isxn[] = (string) $identifier;
             }
         }
         return $number->cleanIsxn($isxn);
     }
-
+    
     /**
      * Method for crosswalking bib data to a more consistent data type.
      *
@@ -172,6 +173,28 @@ class RecordDataFromSru extends QueryParsing
             $bibDataArray[] = $bibDataElement;
         }
         return $bibDataArray[0];
+    }
+
+    /**
+     * Method returns data about the place of publication from a SimpleXMLElement
+     * that comes from transforming a marcxml bib record with the marc to mods 
+     * xslt stylesheet.
+     *
+     * @param $type string, should match to a SimpleXMLElement attribute name.
+     * Possible examples are "text" or "code".
+     *
+     * @param $xmlObject, a SimpleXMLElement from a marc to mods transformed record.
+     *
+     * @return string
+     */ 
+    public function getPlacePublishedInfo($type, $xmlObject) {
+        $data = '';
+        foreach($xmlObject->originInfo->place as $place){
+            if($place->placeTerm->attributes() == $type) {
+                $data = $data . $place->placeTerm; 
+            }
+        }
+        return $data;
     }
  
     /**
@@ -224,20 +247,10 @@ class RecordDataFromSru extends QueryParsing
         $bibData = $this->cleanBibData($bibData);
 //print $bibData->asXml();
  
-        /*Assign ISSNs and ISBNs to the bibData object (in an easier to parse way)*/
-        $issns = $this->getIsxn('issn', $bibData);
-        $isbns = $this->getIsxn('isbn', $bibData);
-        if ($issns) {
-            foreach($issns as $issn) {
-                $bibData->mods->addChild('issn', $issn);
-            }
-        }
-        if ($isbns) {
-            foreach($isbns as $isbn) {
-                $bibData[0]->addChild('isbn', $isbn);
-            }
-        }
-
+        /*Extract ISSNs and ISBNs for an easy add later*/
+        $issns = $this->getIsxn('issn', $bibData[0]);
+        $isbns = $this->getIsxn('isbn', $bibData[0]);
+        
         /*Turn the untransformed sru xml into an object*/
         $xmlObject = simplexml_load_string($sruXml);
 //print_r($xmlObject->xpath('//holdings'));
@@ -246,6 +259,7 @@ class RecordDataFromSru extends QueryParsing
         in a different part of the array*/
         $circulations = $xmlObject->xpath('//circulation');
         $volumes = $xmlObject->xpath('//volume');
+
         /*Only process holdings/circulation data if it exists*/
         if (!empty($circulations)) {
             $i = 0;
@@ -273,13 +287,15 @@ class RecordDataFromSru extends QueryParsing
             $circData['volumeNumber'] = $volumeNumber;
           
             //print_r(array_merge($bibData, $circData));
-            $data = (object) array_merge((array) $bibData, $circData);
+            $data = (object) array_merge((array) $bibData, $circData, array('issn' => $issns), array('isbn' => $isbns));
+
         }
         else {
             $data = $bibData->mods;
         }
         return $data;
-    } 
+    }
+ 
     
     /**
      * Method returns an array of selected record data to populate 
@@ -304,8 +320,7 @@ class RecordDataFromSru extends QueryParsing
         $data['bibId'] = $this->getId();
         $data['barcode'] = $this->getBarcode();
         $data['publisher'] = (isset($recordData->originInfo->publisher) ? $recordData->originInfo->publisher->__toString() : null);
-        $data['placePublished'] = (isset($recordData->originInfo->place->placeTerm) && 
-            $recordData->originInfo->place->placeTerm->attributes()->type == 'text' ? (string) $recordData->originInfo->place->placeTerm : null); 
+        $data['placePublished'] = (isset($recordData->originInfo->place->placeTerm) ? $this->getPlacePublishedInfo('text', $recordData) : null);
         $data['dateIssued'] = (isset($recordData->originInfo->dateIssued) ? trim($recordData->originInfo->dateIssued, '-') : null);
         $data['edition'] = (isset($recordData->originInfo->edition) ? (string) $recordData->originInfo->edition : null);
         $data['issn'] = (isset($recordData->issn) ? $recordData->issn : null);
