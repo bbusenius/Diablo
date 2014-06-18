@@ -163,29 +163,22 @@ def future_value(present_value, annual_rate, periods_per_year, years):
     return present_value * (1+rate_per_period) ** periods
 
 
-def point_distance(x1, y1, x2, y2):
+def point_distance(point1, point2):
     """
     Computes the distance beteen two points on a plane.
 
     Args:
-        x1: x coordinate of point one.
+        point1: Tuple or list, the x and y coordinate of the first point.
 
-        y1: y coordinate of point one.
+        point2: Tuple or list, the x and y coordinate of the second point.
         
-        x2: x coordinate of point two.
-
-        y2: y coordinate of point two.
-
     Returns:
-        The distance between the two points.
-
-    Requires:
-        The math module.
+        The distance between the two points as a floating point number.
     """
-    return math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
+    return ((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2) ** 0.5
 
 
-def triangle_area(x1, y1, x2, y2, x3, y3):
+def triangle_area(point1, point2, point3):
     """
     Uses Heron's formula to find the area of a triangle 
     based on the coordinates of three points.
@@ -211,9 +204,9 @@ def triangle_area(x1, y1, x2, y2, x3, y3):
     """
 
     """Lengths of the three sides of the triangle"""
-    a = point_distance(x1, y1, x2, y2)
-    b = point_distance(x1, y1, x3, y3)
-    c = point_distance(x2, y2, x3, y3)
+    a = point_distance(point1, point2)
+    b = point_distance(point1, point3)
+    c = point_distance(point2, point3)
     
     """Where s is the semiperimeter"""
     s = (a + b + c) / 2.0
@@ -368,20 +361,16 @@ def get_percentage(a, b, i=False, r=False):
         
     return percentage
 
-def get_slope(x1, y1, x2, y2):
+def get_slope(point1, x2, y2):
     """
     Calculate the slope of the line connecting two points on a grid.
 
     Args:
-        x1: the x coordinate of the first point.
+        point1: Tuple or list, the x and y coordinate of the first point.
 
-        y1: the y coordinate of the first point
-
-        x:2 the x coordinate of the second point.
-        
-        y2: the y coordinate of the second point.
+        point2: Tuple or list, the x and y coordinate of the second point
 
     Returns:
         the slope of a line connecting two points on a grid.
     """
-    return (y2 - y1) / (x2 - x1) 
+    return (point2[1] - point1[1]) / (point2[0] - point1[0]) 
