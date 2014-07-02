@@ -287,7 +287,7 @@ def average(numbers):
     Requires:
         The math module
     """
-    return float(sum(numbers) / len(numbers))
+    return float(sum(numbers)) / len(numbers)
 
 
 def variance(numbers):
