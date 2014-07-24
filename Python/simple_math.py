@@ -373,4 +373,32 @@ def get_slope(point1, x2, y2):
     Returns:
         the slope of a line connecting two points on a grid.
     """
-    return (point2[1] - point1[1]) / (point2[0] - point1[0]) 
+    return (point2[1] - point1[1]) / (point2[0] - point1[0])
+
+def get_full_binary_tree_leaves(height):
+    """
+    Calculate the number of leaves in a complete binary tree in which each internal 
+    node has exactly two children. A full binary tree is complete if every leaf 
+    in the tree has the same depth. A leaf is a node without children
+
+    Args:
+        height: integer, the height of the tree. Height is defined by the number
+        of edges from the furthest child to the root. An edge is the line segment
+        that runs between and connects nodes.
+    """
+    return 2**height
+
+
+def get_full_binary_tree_nodes(height):
+    """
+    Calculate the number of internal nodes in a complete binary tree in which each 
+    internal node has exactly two children. A full binary tree is complete if every 
+    leaf in the tree has the same depth. Internal nodes include both leaves and 
+    internal nodes. The root node is also included in this calculation.
+
+    Args:
+        height: integer, the height of the tree. Height is defined by the number
+        of edges from the furthest child to the root. An edge is the line segment
+        that runs between and connects nodes.
+    """
+    return 2**(height + 1) - 1 
