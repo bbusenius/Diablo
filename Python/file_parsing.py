@@ -213,4 +213,4 @@ def totalHours(input_files):
             if (len(data) == 2) and (is_numeric(data[0])) and (data[1] in allow):
                 hours += float(data[0])
         doc.close()
-    return hours
+    yield hours
