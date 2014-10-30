@@ -183,7 +183,7 @@ def is_numeric(string):
         return False
 
 
-def totalHours(input_files):
+def total_hours(input_files):
     """
     Totals the hours for a given projct. Takes a list of input files for 
     which to total the hours. Each input file represents a project.
@@ -210,7 +210,7 @@ def totalHours(input_files):
         for line in doc:
             line = line.rstrip()
             data = line.split(' ')
-            if (len(data) == 2) and (is_numeric(data[0])) and (data[1] in allow):
+            if (len(data) == 2) and (is_numeric(data[0])) and (data[1].lower() in allow):
                 hours += float(data[0])
         doc.close()
-    yield hours
+    return hours
