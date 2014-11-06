@@ -24,6 +24,3 @@ Test Project 2
 4 hours 
 2:00-2:15 donec ut libero sed arcu vehicula ultricies a non tortor
 5 hours 
-
-
-

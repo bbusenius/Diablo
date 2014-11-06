@@ -28,5 +28,3 @@ Test Project 1
 8/14/13
 9:30-3:15 design comp, further flushed out outline sketches, met with Alejandra to discuss wireframes 
 5.75 hours
-
-

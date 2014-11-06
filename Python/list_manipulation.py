@@ -13,26 +13,6 @@ __status__ = "Testing"
 import phpserialize
 from collections import OrderedDict
 
-def remove_duplicates(data):
-    """
-    Removes all duplicates from a list.
-
-    Args:
-        data: The list with duplicate values.
-
-    Returns:
-        A new list without duplicate entries.
-    """
-    unique_items = []
-    
-    for item in data:
-        if item not in unique_items:
-            unique_items.append(item)
-            
-    return unique_items
-
-
-
 def php_unserialize(string):
     """
     Unserializes serialized php arrays and prints them to the console in an easy to read way.

@@ -20,11 +20,11 @@ def miles_to_feet(miles):
         miles: Number of miles we want to convert.
 
     Returns:
-        Integer or floating point number as the number of
+        Floating point number as the number of
         feet in the given miles.
     """
 
-    return miles * 5280
+    return miles * float(5280)
 
 
 def total_seconds(hours, minutes, seconds):
@@ -137,30 +137,30 @@ def compound_interest(principal, annual_rate, years):
 def future_value(present_value, annual_rate, periods_per_year, years):
     """
     Calculates the future value of money invested at an anual interest rate,
-    at an anual interest rate, x times per year, for a given number of years.
+    x times per year, for a given number of years.
 
     Args:
-        present_value: Current value of the money (principal). 
+        present_value: int or float, the current value of the money (principal). 
         
-        annual_rate: The interest rate paid out.
+        annual_rate: float 0 to 1 e.g., .5 = 50%), the interest rate paid out.
         
-        periods_per_year: Number of times money is invested per year.
+        periods_per_year: int, the number of times money is invested per year.
 
-        years: The number of years invested.
+        years: int, the number of years invested.
 
     Returns:
         Float, the future value of the money invested with compound interest.
     """
 
-    """The nominal interest rate per period (rate) is how much interest you earn during a 
-    particular length of time, before accounting for compounding. This is typically 
-    expressed as a percentage."""
-    rate_per_period = annual_rate / periods_per_year
+    # The nominal interest rate per period (rate) is how much interest you earn during a 
+    # particular length of time, before accounting for compounding. This is typically 
+    # expressed as a percentage.
+    rate_per_period = annual_rate / float(periods_per_year)
 
-    """How many periods in the future the calculation is for. """
+    # How many periods in the future the calculation is for.
     periods = periods_per_year * years
     
-    return present_value * (1+rate_per_period) ** periods
+    return present_value * (1 + rate_per_period) ** periods
 
 
 def point_distance(point1, point2):
@@ -184,17 +184,11 @@ def triangle_area(point1, point2, point3):
     based on the coordinates of three points.
 
     Args:
-        x1: x coordinate of point one.
+        point1: list or tuple, the x y coordinate of point one.
 
-        y1: y coordinate of point one.
-        
-        x2: x coordinate of point two.
+        point2: list or tuple, the x y coordinate of point two.
 
-        y2: y coordinate of point two.
-
-        x3: x coordinate of point three.
-
-        y3: y coordinate of point three.
+        point3: list or tuple, the x y coordinate of point three.
 
     Returns:
         The area of a triangle as a floating point number.
