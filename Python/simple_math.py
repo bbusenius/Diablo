@@ -261,7 +261,6 @@ def median(data):
     """
     ordered = sorted(data)
     if len(ordered) % 2 == 0:
-        print ordered
         return ((ordered[(len(ordered) -1) / 2]) + (ordered[(len(ordered)) / 2])) / 2.0
                 
     elif len(ordered) % 2 != 0:
@@ -276,7 +275,7 @@ def average(numbers):
         numbers: a list of integers or floating point numbers
 
     Returns:
-        The average (mean) of the numbers as an integer or floating point number 
+        The average (mean) of the numbers as a floating point number 
 
     Requires:
         The math module
@@ -284,16 +283,20 @@ def average(numbers):
     return float(sum(numbers)) / len(numbers)
 
 
-def variance(numbers):
+def variance(numbers, type='population'):
     """
-    Calculates the variance of a list of numbers. A large number means the results are
-    all over the place, while a small number means the results are comparatively close to the average.
+    Calculates the population or sample variance of a list of numbers. 
+    A large number means the results are all over the place, while a 
+    small number means the results are comparatively close to the average.
 
     Args:
         numbers: a list  of integers or floating point numbers to compare.
 
+        type: string, 'population' or 'sample', the kind of variance to be computed.
+
     Returns:
-        The computed variance.
+        The computed population or sample variance. 
+        Defaults to population variance.
 
     Requires:
         The math module, average()
@@ -301,10 +304,12 @@ def variance(numbers):
     mean = average(numbers)
     variance = 0
     for number in numbers:
-        variance += (mean - number) ** 2
-        
-    return variance / len(numbers)
-
+        variance += (mean - number) ** 2        
+    
+    if type == 'population':
+        return variance / len(numbers)
+    else:
+        return variance / (len(numbers) - 1)
 
 def standard_deviation(variance):
     """
@@ -355,7 +360,7 @@ def get_percentage(a, b, i=False, r=False):
         
     return percentage
 
-def get_slope(point1, x2, y2):
+def get_slope(point1, point2):
     """
     Calculate the slope of the line connecting two points on a grid.
 
@@ -367,7 +372,7 @@ def get_slope(point1, x2, y2):
     Returns:
         the slope of a line connecting two points on a grid.
     """
-    return (point2[1] - point1[1]) / (point2[0] - point1[0])
+    return (float(point2[1]) - point1[1]) / (float(point2[0]) - point1[0])
 
 def get_full_binary_tree_leaves(height):
     """

@@ -14,28 +14,42 @@ import phpserialize
 from collections import OrderedDict
 
 def php_unserialize(string):
-    """
-    Unserializes serialized php arrays and prints them to the console in an easy to read way.
-    Only goes 1 level deep. You should build multi-level support in the future. 
+    """Unserializes serialized php arrays and prints them to
+    the console in an easy to read way. Only goes 1 level deep.
+    You should build multi-level support in the future.
 
     Args:
         string: a string of serialized php
 
     Returns:
-        A series of strings printed to the console from a for loop.
+        None, prints a sequence of strings to the console."""
 
-    Requires:
-        from collections import OrderedDict
-     
-    """
+    # Serialized data converted to a python data structure (list of tuples)
     data = phpserialize.loads(string, array_hook=list)
 
-    # Loop over the data and get the length of the longest word
-    longest_word = 0
-    for item in data:
-        if len(item[0]) > longest_word:
-            longest_word = len(item[0])
+    def loop_print(iterable):
+        """
+        Loops over a python representation of a php array 
+        (list of tuples) and prints the data structure as 
+        a php array.
+        """
+        retval = ''
+        # Base case - variable is not an iterable
+        if hasattr(iterable,'__iter__') == False:
+            non_iterable = str(iterable)
+            #print non_iterable
+            return non_iterable
+         
+        # Recursive case
+        for item in iterable:
+            # If item is a tuple it should be a key, value pair
+            if str(type(item)) == "<type 'tuple'>" and len(item) == 2:
+                key = str(loop_print(item[0]))
+                val = str(loop_print(item[1]))
+                retval += '[%s] => %s \n'  % (key, val)
+        return retval
 
-    # Loop again and print results to screen
-    for item in data:
-        print str(item[0]) + ' ' * (longest_word - len(item[0]) + 3) + str(item[1])
+    php_array = loop_print(data)
+    print php_array
+    return php_array
+
