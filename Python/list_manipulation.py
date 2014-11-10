@@ -13,7 +13,7 @@ __status__ = "Testing"
 import phpserialize
 from collections import OrderedDict
 
-def php_unserialize(string):
+def unserialize_php_array(string):
     """Unserializes serialized php arrays and prints them to
     the console in an easy to read way. Only goes 1 level deep.
     You should build multi-level support in the future.
@@ -38,18 +38,32 @@ def php_unserialize(string):
         if hasattr(iterable,'__iter__') == False:
             non_iterable = str(iterable)
             #print non_iterable
-            return non_iterable
+            return str(non_iterable)
          
         # Recursive case
         for item in iterable:
             # If item is a tuple it should be a key, value pair
             if str(type(item)) == "<type 'tuple'>" and len(item) == 2:
-                key = str(loop_print(item[0]))
-                val = str(loop_print(item[1]))
-                retval += '[%s] => %s \n'  % (key, val)
+
+                # Get the key value pair
+                key = item[0]
+                val = loop_print(item[1])
+               
+                # Convert keys to their properly formatted strings
+                # Integers are not quoted as array keys
+                key = str(key) if isinstance(key, (int, long)) else '\'' + str(key) + '\''
+
+                # There first item is an array key and the second item is an array
+                if hasattr(item[0],'__iter__') == False and hasattr(item[1],'__iter__') == True:
+                    retval += '\n   %s => array \n    ( \n%s    ),\n'  % (key, val)
+                else:
+                    # Convert values to their properly formatted strings
+                    # Integers and booleans are not quoted as array values
+                    val = str(val) if val.isdigit() or val == 'True' or val == 'False' else '\'' + str(val) + '\''
+                    retval += '      %s => %s, \n'  % (key, val)
         return retval
 
-    php_array = loop_print(data)
+    php_array = 'array (' + loop_print(data) + '\n);'
     print php_array
     return php_array
 
