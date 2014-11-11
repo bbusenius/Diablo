@@ -13,11 +13,6 @@ __status__ = "Testing"
 import phpserialize
 from collections import OrderedDict
 
-def recur(n, count=0):
-    if n == 0:
-        return "Finished count %s" % count
-    return recur(n-1, count+1)
-
 def unserialize_php_array(string):
     """Unserializes serialized php arrays and prints them to
     the console in an easy to read way. Only goes 1 level deep.
@@ -32,15 +27,15 @@ def unserialize_php_array(string):
     # Serialized data converted to a python data structure (list of tuples)
     data = phpserialize.loads(string, array_hook=list)
 
-    def loop_print(iterable):
+    def loop_print(iterable, level=3):
         """
         Loops over a python representation of a php array 
         (list of tuples) and prints the data structure as 
         a php array.
         """
         retval = ''
-        indentation = ' ' * 3
-        
+        indentation = ' ' * level
+
         # Base case - variable is not an iterable
         if hasattr(iterable,'__iter__') == False:
             non_iterable = str(iterable)
@@ -54,15 +49,16 @@ def unserialize_php_array(string):
                 
                 # Get the key value pair
                 key = item[0]
-                val = loop_print(item[1])
-               
+                val = loop_print(item[1], level=level+3)
+ 
                 # Convert keys to their properly formatted strings
                 # Integers are not quoted as array keys
                 key = str(key) if isinstance(key, (int, long)) else '\'' + str(key) + '\''
 
-                # There first item is an array key and the second item is an array
+                # There first item is a key and the second item is an iterable
                 if hasattr(item[0],'__iter__') == False and hasattr(item[1],'__iter__') == True:
-                    retval += '\n%s%s => array \n%s( \n%s%s),\n'  % (indentation, key, indentation, val, indentation)
+                    retval += '%s%s => array \n%s( \n%s%s),\n'  % (indentation, key, indentation, val, indentation)
+                # The second item is not an iterable
                 else:
                     # Convert values to their properly formatted strings
                     # Integers and booleans are not quoted as array values
@@ -71,7 +67,7 @@ def unserialize_php_array(string):
 
         return retval
 
-    php_array = 'array (' + loop_print(data) + '\n);'
+    php_array = 'array (\n' + loop_print(data) + '\n);'
     print php_array
     return php_array
 
