@@ -14,6 +14,7 @@ __status__ = "Testing"
 import phpserialize
 from collections import OrderedDict
 import pprint
+import json
 
 class ConvertPHP():
     """
@@ -25,12 +26,26 @@ class ConvertPHP():
         Initialize the object.
         """
         self.data_structure = ''
+        self.built_in = set(['python', 'json'])
 
     def __str__(self):
         """
         String representation of the class.
         """
         return self.data_structure
+
+    def is_built_in(self, language):
+        """
+        Tests to see if a language is a built in type
+        supported by python.
+        
+        Args:
+            language: string, language to test for.
+
+        Returns: 
+            boolean
+        """
+        return language in self.built_in
 
     # Language specific values 
     lang_specific_values = {'php': { 
@@ -40,11 +55,39 @@ class ConvertPHP():
                             'javascript' : {
                                     'True' : 'true',
                                     'False' : 'false',
-                                    'None' : 'null'}}
+                                    'None' : 'null'},
+                            'ocaml' : {
+                                    'True' : 'true',
+                                    'False': 'false'}}
 
     # Language specific wrapper templates
     outer_templates = {'php' : 'array (\n%s\n);',
-                       'javascript' : 'var jsObject = {\n%s\n}'}
+                       'javascript' : 'var jsObject = {\n%s\n}',
+                       'ocaml' : 'let map = [|\n%s\n|] ;;'}
+
+    def get_built_in(self, language, level, data):
+        """
+        Gets the return string for a language that's supported by python.
+        Used in cases when python provides support for the conversion.
+    
+        Args:
+            language: string the langage to return for.
+
+            level: integer, the indentation level.
+
+            data: python data structure being converted (list of tuples)
+
+        Returns:
+            None, updates self.data_structure  
+        """
+        # Language is python
+        pp = pprint.PrettyPrinter(indent=level)
+        self.data_structure = str(pp.pprint(data))
+
+        lookup = {'python' : pp.pformat(data),
+                  'json' : str(json.dumps(data, sort_keys=True, indent=level, separators=(',', ': ')))}
+
+        self.data_structure = lookup[language]
 
     def get_inner_template(self, language, template_type, indentation, key, val):
         """
@@ -74,7 +117,10 @@ class ConvertPHP():
                                 'singular' : '%s%s => %s, \n' % (indentation, key, val) },
                            'javascript' : {
                                 'iterable' : '%s%s : {\n%s\n%s},\n' % (indentation, key, val, indentation),
-                                'singular' : '%s%s: %s,\n' % (indentation, key, val)}}
+                                'singular' : '%s%s: %s,\n' % (indentation, key, val)},
+                           'ocaml' : { 
+                                'iterable' : '%s[| (%s, (\n%s\n%s))|] ;;\n' % (indentation, key, val, indentation),
+                                'singular' : '%s(%s, %s);\n' % (indentation, key, val)}}
 
         return inner_templates[language][template_type]
 
@@ -96,10 +142,12 @@ class ConvertPHP():
         return self.lang_specific_values[language][value]
         
 
-    def translate_array(self, string, language, level=3):
-        """Unserializes serialized php arrays and prints them to
-        the console in an easy to read way. Only goes 1 level deep.
-        You should build multi-level support in the future.
+    def translate_array(self, string, language, level=3, retdata=False):
+        """Unserializes a serialized php array and prints it to
+        the console as a data structure in the specified language.
+        Used to translate or convert a php array into a data structure 
+        in another language. Currently supports, PHP, Python, Javascript,
+        JSON, and OCaml (questionably). 
 
         Args:
             string: a string of serialized php
@@ -110,22 +158,39 @@ class ConvertPHP():
             level: integer, indentation level in spaces. 
             Defaults to 3.
 
+            retdata: boolean, the method will return the string
+            in addition to printing it if set to True. Defaults 
+            to false.
+
         Returns:
-            None, prints a sequence of strings to the console."""
+            None but prints a string to the console if retdata is 
+            False, otherwise returns a string.
+            """
+        language = language.lower()
+        assert self.is_built_in(language) or language in self.outer_templates, \
+            "Sorry, " + language + " is not a supported language."
 
         # Serialized data converted to a python data structure (list of tuples)
         data = phpserialize.loads(string, array_hook=list)
 
-        # If language is python, use pprint library and avoid recursion entirely
-        if language == 'python':
-            pp = pprint.PrettyPrinter(indent=level)
-            return pp.pprint(data)
+        # If language conversion is supported by python avoid recursion entirely
+        # and use a built in library
+        if self.is_built_in(language):
+            self.get_built_in(language, level, data) 
+            print self
+            return self.data_structure if retdata else None
 
+        # The language is not supported. Use recursion to build a data structure.
         def loop_print(iterable, level=3):
             """
             Loops over a python representation of a php array 
-            (list of tuples) and prints the data structure as 
-            a php array.
+            (list of tuples) and constructs a representation in another language.
+            Translates a php array into another structure.
+
+            Args:
+                iterable: list or tuple to unpack.
+
+                level: integer, number of spaces to use for indentation
             """
             retval = ''
             indentation = ' ' * level
@@ -171,5 +236,5 @@ class ConvertPHP():
         # Execute the recursive call in language specific wrapper template
         self.data_structure = self.outer_templates[language] % (loop_print(data))
         print self
-        #return self.data_structure
+        return self.data_structure if retdata else None
 
