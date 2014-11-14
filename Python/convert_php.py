@@ -82,7 +82,6 @@ class ConvertPHP():
         """
         # Language is python
         pp = pprint.PrettyPrinter(indent=level)
-        self.data_structure = str(pp.pprint(data))
 
         lookup = {'python' : pp.pformat(data),
                   'json' : str(json.dumps(data, sort_keys=True, indent=level, separators=(',', ': ')))}
@@ -147,7 +146,7 @@ class ConvertPHP():
         the console as a data structure in the specified language.
         Used to translate or convert a php array into a data structure 
         in another language. Currently supports, PHP, Python, Javascript,
-        JSON, and OCaml (questionably). 
+        and JSON. 
 
         Args:
             string: a string of serialized php

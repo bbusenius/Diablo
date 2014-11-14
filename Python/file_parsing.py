@@ -168,7 +168,8 @@ def reformat_css(input_file, output_file):
 def is_numeric(string):
     """
     Checks if a string is numeric. If the string value is an integer
-    or a float, return True, otherwise False.
+    or a float, return True, otherwise False. Can be used to test 
+    soley for floats as well. 
     
     Args:
         string: a string to test.
@@ -181,6 +182,26 @@ def is_numeric(string):
         return True
     except ValueError:
         return False
+
+
+def is_int(string):
+    """
+    Checks if a string is an integer. If the string value is an integer
+    return True, otherwise return False. 
+    
+    Args:
+        string: a string to test.
+
+    Returns: 
+        boolean
+    """
+    try:
+        a = float(string)
+        b = int(a)
+    except ValueError:
+        return False
+    else:
+        return a == b
 
 
 def total_hours(input_files):
