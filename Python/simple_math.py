@@ -387,7 +387,6 @@ def get_full_binary_tree_leaves(height):
     """
     return 2**height
 
-
 def get_full_binary_tree_nodes(height):
     """
     Calculate the number of internal nodes in a complete binary tree in which each 
@@ -401,3 +400,39 @@ def get_full_binary_tree_nodes(height):
         that runs between and connects nodes.
     """
     return 2**(height + 1) - 1 
+
+def take_home_pay(gross_pay, employer_match, taxes_and_fees):
+    """
+    Calculate net take-home pay including employer retirement savings match 
+    using the formula laid out by Mr. Money Mustache: 
+    http://www.mrmoneymustache.com/2015/01/26/calculating-net-worth/
+
+    Args:
+        gross_pay: float, gross monthly pay.
+
+        employer_match: float, the 401(k) match from your employer.
+    
+        taxes_and_fees: list, taxes and fees that are deducted from your paycheck.
+
+    Returns:
+        your monthly take-home pay. 
+    """
+    return (gross_pay + employer_match) - sum(taxes_and_fees)
+
+def savings_rate(take_home_pay, spending):
+    """Calculate net take-home pay including employer retirement savings match 
+    using the formula laid out by Mr. Money Mustache: 
+    http://www.mrmoneymustache.com/2015/01/26/calculating-net-worth/
+
+    Args:
+        take_home_pay: float, monthly take-home pay
+
+        spending: float, monthly spending
+
+    Returns:
+        your monthly savings rate expressed as a percentage.
+    """
+
+    return ((take_home_pay - spending) / (take_home_pay)) * 100.0
+
+

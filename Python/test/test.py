@@ -294,6 +294,21 @@ class test_simple_math(unittest.TestCase):
         assert val1 == 7, "There should be 7 nodes in val1, returned " + str(val1)
         assert val2 == 15, "There should be 15 nodes in val2, returned " + str(val2)
 
+    # Test take_home_pay
+    # Gross Pay + Employer 401(k) match - taxes and fees
+    # = $8620 gross pay + $300 employer 401(k) match 
+    # - $1724 federal tax 
+    # - $689 state tax 
+    # - $200 professional fees
+    # = $6407 biweekly or $13,839 per month
+    def test_take_home_pay(self):
+        val1 = m.take_home_pay(8620.0, 300.0, [1724.0, 689.0, 200.0]) * 2.16 # There are 2.16 pay periods in a month 
+        assert val1 == 13623.12, "Take-home pay should be $13,839.0 per month, returned " + str(val1) 
+
+    # Test savings_rate
+    def test_savings_rate(self):
+        val1 = m.savings_rate(13839.0, 8919.0)
+        assert 35.5 <= val1 <= 35.6, "The savings rate should be approximately 35.5%, returned " + str(val1)       
 
 class test_list_manipulation(unittest.TestCase):
     # 
