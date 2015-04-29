@@ -184,6 +184,24 @@ def is_numeric(string):
         return False
 
 
+def are_numeric(string_list):
+    """
+    Checks a list of strings to see that all values in the list are
+    numeric. Returns the name of the offending string if it is  
+    not numeric.
+
+    Args:
+        string_list: a list of strings to test.
+
+    Returns:
+        boolean or string
+    """
+    for string in string_list:
+        if not is_numeric(string):
+            return string
+    return True
+
+
 def is_int(string):
     """
     Checks if a string is an integer. If the string value is an integer
