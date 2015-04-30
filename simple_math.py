@@ -408,16 +408,16 @@ def take_home_pay(gross_pay, employer_match, taxes_and_fees):
     http://www.mrmoneymustache.com/2015/01/26/calculating-net-worth/
 
     Args:
-        gross_pay: float, gross monthly pay.
+        gross_pay: float or int, gross monthly pay.
 
-        employer_match: float, the 401(k) match from your employer.
+        employer_match: float or int, the 401(k) match from your employer.
     
         taxes_and_fees: list, taxes and fees that are deducted from your paycheck.
 
     Returns:
         your monthly take-home pay. 
     """
-    return (gross_pay + employer_match) - sum(taxes_and_fees)
+    return (float(gross_pay) + float(employer_match)) - sum(taxes_and_fees)
 
 def savings_rate(take_home_pay, spending):
     """Calculate net take-home pay including employer retirement savings match 
@@ -425,14 +425,14 @@ def savings_rate(take_home_pay, spending):
     http://www.mrmoneymustache.com/2015/01/26/calculating-net-worth/
 
     Args:
-        take_home_pay: float, monthly take-home pay
+        take_home_pay: float or int, monthly take-home pay
 
-        spending: float, monthly spending
+        spending: float or int, monthly spending
 
     Returns:
         your monthly savings rate expressed as a percentage.
     """
 
-    return ((take_home_pay - spending) / (take_home_pay)) * 100.0
+    return ((float(take_home_pay) - float(spending)) / (float(take_home_pay))) * 100.0
 
 
