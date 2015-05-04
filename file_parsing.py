@@ -1,4 +1,4 @@
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import re
 
 def get_web_file(path):
@@ -10,7 +10,7 @@ def get_web_file(path):
     Returns:
         The desired file as a string.        
     """
-    response = urllib2.urlopen(path)
+    response = urllib.request.urlopen(path)
     return response.read()
 
 def copy_web_file_to_local(file_path, target_path):
@@ -26,7 +26,7 @@ def copy_web_file_to_local(file_path, target_path):
         None.
 
     """
-    response = urllib2.urlopen(file_path)
+    response = urllib.request.urlopen(file_path)
     f = open(target_path, 'w')
     f.write(response.read()) 
     f.close()
