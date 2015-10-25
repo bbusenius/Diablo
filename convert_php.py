@@ -176,7 +176,7 @@ class ConvertPHP():
         # and use a built in library
         if self.is_built_in(language):
             self.get_built_in(language, level, data) 
-            print self
+            print(self)
             return self.data_structure if retdata else None
 
         # The language is not supported. Use recursion to build a data structure.
@@ -234,6 +234,6 @@ class ConvertPHP():
     
         # Execute the recursive call in language specific wrapper template
         self.data_structure = self.outer_templates[language] % (loop_print(data))
-        print self
+        print(self)
         return self.data_structure if retdata else None
 
