@@ -11,6 +11,7 @@ __maintainer__ = "Brad Busenius"
 __status__ = "Testing"
 
 import math, warnings
+from decimal import *
 
 def miles_to_feet(miles):
     """
@@ -260,27 +261,34 @@ def median(data):
         is returned.    
     """
     ordered = sorted(data)
-    if len(ordered) % 2 == 0:
-        return ((ordered[(len(ordered) -1) / 2]) + (ordered[(len(ordered)) / 2])) / 2.0
+    length = len(ordered)
+    if length % 2 == 0:
+         return (ordered[math.floor(length / 2) - 1] + ordered[math.floor(length / 2)]) / 2.0
                 
-    elif len(ordered) % 2 != 0:
-        return ordered[len(ordered) / 2]
+    elif length % 2 != 0:
+        return ordered[math.floor(length / 2)]
 
 
-def average(numbers):
+def average(numbers, numtype='float'):
     """
     Calculates the average or mean of a list of numbers
 
     Args:
-        numbers: a list of integers or floating point numbers
+        numbers: a list of integers or floating point numbers.
+
+        numtype: string, 'decimal' or 'float'; the type of number to return.
 
     Returns:
-        The average (mean) of the numbers as a floating point number 
+        The average (mean) of the numbers as a floating point number
+        or a Decimal object. 
 
     Requires:
         The math module
     """
-    return float(sum(numbers)) / len(numbers)
+    if type == 'decimal':
+        return Decimal(sum(numbers)) / len(numbers)
+    else:
+        return float(sum(numbers)) / len(numbers)
 
 
 def variance(numbers, type='population'):
@@ -401,7 +409,7 @@ def get_full_binary_tree_nodes(height):
     """
     return 2**(height + 1) - 1 
 
-def take_home_pay(gross_pay, employer_match, taxes_and_fees):
+def take_home_pay(gross_pay, employer_match, taxes_and_fees, numtype='float'):
     """
     Calculate net take-home pay including employer retirement savings match 
     using the formula laid out by Mr. Money Mustache: 
@@ -414,12 +422,17 @@ def take_home_pay(gross_pay, employer_match, taxes_and_fees):
     
         taxes_and_fees: list, taxes and fees that are deducted from your paycheck.
 
+        numtype: string, 'decimal' or 'float'; the type of number to return.
+
     Returns:
         your monthly take-home pay. 
     """
-    return (float(gross_pay) + float(employer_match)) - sum(taxes_and_fees)
+    if numtype == 'decimal':
+        return (Decimal(gross_pay) + Decimal(employer_match)) - Decimal(sum(taxes_and_fees))
+    else:
+        return (float(gross_pay) + float(employer_match)) - sum(taxes_and_fees)
 
-def savings_rate(take_home_pay, spending):
+def savings_rate(take_home_pay, spending, numtype='float'):
     """Calculate net take-home pay including employer retirement savings match 
     using the formula laid out by Mr. Money Mustache: 
     http://www.mrmoneymustache.com/2015/01/26/calculating-net-worth/
@@ -429,10 +442,15 @@ def savings_rate(take_home_pay, spending):
 
         spending: float or int, monthly spending
 
+        numtype: string, 'decimal' or 'float'; the type of number to return.
+
     Returns:
         your monthly savings rate expressed as a percentage.
     """
 
-    return ((float(take_home_pay) - float(spending)) / (float(take_home_pay))) * 100.0
+    if numtype == 'decimal': 
+         return ((Decimal(take_home_pay) - Decimal(spending)) / (Decimal(take_home_pay))) * Decimal(100.0)
+    else:
+        return ((float(take_home_pay) - float(spending)) / (float(take_home_pay))) * 100.0
 
 

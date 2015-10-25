@@ -8,7 +8,8 @@ import sys
 sys.path.append("..")
 import file_parsing as fp
 import simple_math as m
-import convert_php as cp
+from decimal import *
+#import convert_php as cp
 
 class test_file_parsing(unittest.TestCase):
 
@@ -230,7 +231,11 @@ class test_simple_math(unittest.TestCase):
     # Test average
     def test_average(self):
         val1 = m.average([2, 2, 4, 2, 2])
+        val2 = m.average([2.0, 2.0, 4.0, 2.0, 2.0], 'decimal')
+
         assert val1 ==  2.4, "The average should be 14, returned " + str(val1)
+        assert val2 ==  2.4, "The average should be 14, returned " + str(val2)
+
 
     # Test variance and standard deviation 
     def test_variance_and_standard_deviation(self):
@@ -302,20 +307,31 @@ class test_simple_math(unittest.TestCase):
     # - $200 professional fees
     # = $6407 biweekly or $13,839 per month
     def test_take_home_pay(self):
-        val1 = m.take_home_pay(8620.0, 300.0, [1724.0, 689.0, 200.0]) * 2.16 # There are 2.16 pay periods in a month 
-        assert val1 == 13623.12, "Take-home pay should be $13,839.0 per month, returned " + str(val1) 
+        # Set Decimal places
+        TWOPLACES = Decimal('0.01')
+
+        val1 = m.take_home_pay(8620.0, 300.0, [1724.0, 689.0, 200.0]) * 2.16 # There are 2.16 pay periods in a month
+        val2 = m.take_home_pay(8620.0, 300.0, [1724.0, 689.0, 200.0], 'decimal') * Decimal(2.16)
+        val2 = val2.quantize(TWOPLACES)
+        assert val1 == 13623.12, "Take-home pay should be $13,839.0 per month, returned " + str(val1)
+        assert val2 == Decimal('13623.12'), "Take-home pay should be $13,839.0 per month, returned " + str(val2) 
 
     # Test savings_rate
     def test_savings_rate(self):
         val1 = m.savings_rate(13839.0, 8919.0)
-        assert 35.5 <= val1 <= 35.6, "The savings rate should be approximately 35.5%, returned " + str(val1)       
+        val2 = m.savings_rate(13839.0, 8919.0, 'decimal')
+        val3 = m.savings_rate(600, 300, 'decimal')
 
-class test_list_manipulation(unittest.TestCase):
+        assert 35.5 <= val1 <= 35.6, "The savings rate should be approximately 35.5%, returned " + str(val1)       
+        assert 35.5 <= val2 <= 35.6, "The savings rate should be approximately 35.5%, returned " + str(val2)       
+        assert val3 == Decimal('50'), "The savings rate should be 50%, returned " + str(val3)       
+
+#class test_list_manipulation(unittest.TestCase):
     # 
-    def test_unserialize_php_array(self):
-        print
-        unserialize = cp.ConvertPHP()
-        unserialize.translate_array('a:4:{i:0;a:7:{s:2:"id";i:2386211;s:6:"status";s:9:"AVAILABLE";s:8:"location";s:18:"Crerar, Bookstacks";s:7:"reserve";s:1:"N";s:10:"callnumber";s:6:" Q1.N2";s:6:"foobar";a:4:{s:3:"one";i:1;s:3:"two";i:2;s:5:"three";i:3;s:4:"four";i:4;}s:12:"availability";b:1;}i:1;a:8:{s:2:"id";i:2386211;s:6:"status";s:7:"MISSING";s:4:"test";a:5:{i:0;i:1;i:1;i:2;i:2;i:3;i:3;i:4;i:4;i:5;}s:8:"location";s:18:"Crerar, Bookstacks";s:7:"reserve";s:1:"N";s:8:"testnull";N;s:10:"callnumber";s:6:" Q1.N2";s:12:"availability";b:0;}i:2;a:6:{s:2:"id";i:2386211;s:6:"status";s:9:"AVAILABLE";s:8:"location";s:18:"Crerar, Bookstacks";s:7:"reserve";s:1:"N";s:10:"callnumber";s:6:" Q1.N2";s:12:"availability";b:1;}i:3;a:6:{s:2:"id";i:2386211;s:6:"status";s:9:"AVAILABLE";s:8:"location";s:38:"Special Collections, Crerar Rare Books";s:7:"reserve";s:1:"N";s:10:"callnumber";s:6:" Q1.N2";s:12:"availability";b:1;}}', 'php')
+#    def test_unserialize_php_array(self):
+#        print
+#        unserialize = cp.ConvertPHP()
+#        unserialize.translate_array('a:4:{i:0;a:7:{s:2:"id";i:2386211;s:6:"status";s:9:"AVAILABLE";s:8:"location";s:18:"Crerar, Bookstacks";s:7:"reserve";s:1:"N";s:10:"callnumber";s:6:" Q1.N2";s:6:"foobar";a:4:{s:3:"one";i:1;s:3:"two";i:2;s:5:"three";i:3;s:4:"four";i:4;}s:12:"availability";b:1;}i:1;a:8:{s:2:"id";i:2386211;s:6:"status";s:7:"MISSING";s:4:"test";a:5:{i:0;i:1;i:1;i:2;i:2;i:3;i:3;i:4;i:4;i:5;}s:8:"location";s:18:"Crerar, Bookstacks";s:7:"reserve";s:1:"N";s:8:"testnull";N;s:10:"callnumber";s:6:" Q1.N2";s:12:"availability";b:0;}i:2;a:6:{s:2:"id";i:2386211;s:6:"status";s:9:"AVAILABLE";s:8:"location";s:18:"Crerar, Bookstacks";s:7:"reserve";s:1:"N";s:10:"callnumber";s:6:" Q1.N2";s:12:"availability";b:1;}i:3;a:6:{s:2:"id";i:2386211;s:6:"status";s:9:"AVAILABLE";s:8:"location";s:38:"Special Collections, Crerar Rare Books";s:7:"reserve";s:1:"N";s:10:"callnumber";s:6:" Q1.N2";s:12:"availability";b:1;}}', 'php')
 
 #lm.unserialize_php_array('a:4:{i:0;a:7:{s:2:"id";i:2386211;s:6:"status";s:9:"AVAILABLE";s:8:"location";s:18:"Crerar, Bookstacks";s:7:"reserve";s:1:"N";s:10:"callnumber";s:6:" Q1.N2";s:6:"foobar";a:4:{s:3:"one";i:1;s:3:"two";i:2;s:5:"three";i:3;s:4:"four";i:4;}s:12:"availability";b:1;}i:1;a:8:{s:2:"id";i:2386211;s:6:"status";s:7:"MISSING";s:4:"test";a:5:{i:0;i:1;i:1;i:2;i:2;i:3;i:3;i:4;i:4;i:5;}s:8:"location";s:18:"Crerar, Bookstacks";s:7:"reserve";s:1:"N";s:8:"testnull";N;s:10:"callnumber";s:6:" Q1.N2";s:12:"availability";b:0;}i:2;a:6:{s:2:"id";i:2386211;s:6:"status";s:9:"AVAILABLE";s:8:"location";s:18:"Crerar, Bookstacks";s:7:"reserve";s:1:"N";s:10:"callnumber";s:6:" Q1.N2";s:12:"availability";b:1;}i:3;a:6:{s:2:"id";i:2386211;s:6:"status";s:9:"AVAILABLE";s:8:"location";s:38:"Special Collections, Crerar Rare Books";s:7:"reserve";s:1:"N";s:10:"callnumber";s:6:" Q1.N2";s:12:"availability";b:1;}}', 'python')
 
