@@ -16,6 +16,7 @@ setup(
     url='https://github.com/bbusenius/Diablo-Python',
     license='BSD licence',
     install_requires=[
+        'phpserialize',
     ],
     test_suite='tests',
     zip_safe=False
