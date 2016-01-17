@@ -139,7 +139,24 @@ class ConvertPHP():
             string representation of a value in a given language.
         """
         return self.lang_specific_values[language][value]
-        
+
+
+    def is_iterable(self, data):
+        """
+        Checks to see if an object is an iterable.
+
+        Args:
+            data: a data object.
+
+        Returns:
+            boolean
+        """
+        try:
+            iterate = iter(data)
+            return True
+        except:
+            return False 
+
 
     def translate_array(self, string, language, level=3, retdata=False):
         """Unserializes a serialized php array and prints it to
@@ -170,7 +187,7 @@ class ConvertPHP():
             "Sorry, " + language + " is not a supported language."
 
         # Serialized data converted to a python data structure (list of tuples)
-        data = phpserialize.loads(string, array_hook=list)
+        data = phpserialize.loads(bytes(string, 'utf-8'), array_hook=list, decode_strings=True)
 
         # If language conversion is supported by python avoid recursion entirely
         # and use a built in library
@@ -195,15 +212,14 @@ class ConvertPHP():
             indentation = ' ' * level
 
             # Base case - variable is not an iterable
-            if hasattr(iterable,'__iter__') == False:
+            if not self.is_iterable(iterable) or isinstance(iterable, str):
                 non_iterable = str(iterable)
                 return str(non_iterable)
              
             # Recursive case
             for item in iterable:
                 # If item is a tuple it should be a key, value pair
-                if str(type(item)) == "<type 'tuple'>" and len(item) == 2:
-                    
+                if isinstance(item, tuple) and len(item) == 2:
                     # Get the key value pair
                     key = item[0]
                     val = loop_print(item[1], level=level+3)
@@ -214,7 +230,7 @@ class ConvertPHP():
      
                     # Convert keys to their properly formatted strings
                     # Integers are not quoted as array keys
-                    key = str(key) if isinstance(key, (int, long)) else '\'' + str(key) + '\''
+                    key = str(key) if isinstance(key, int) else '\'' + str(key) + '\''
 
                     # The first item is a key and the second item is an iterable, boolean
                     needs_unpacking = hasattr(item[0],'__iter__') == False \
@@ -228,6 +244,7 @@ class ConvertPHP():
                         # Convert values to their properly formatted strings
                         # Integers and booleans are not quoted as array values
                         val = str(val) if val.isdigit() or val in self.lang_specific_values[language].values() else '\'' + str(val) + '\''
+
                         retval += self.get_inner_template(language, 'singular', indentation, key, val) 
 
             return retval
