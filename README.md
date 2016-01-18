@@ -28,6 +28,7 @@ print(savingsrate)
 *Would print*
 
 ```
+Your savings rate is: 
 50.86642633038289
 ```
 
