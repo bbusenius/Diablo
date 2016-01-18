@@ -12,7 +12,7 @@ Test Project 1
 0.75 hours
 
 8/8/13
-11:00-12:00 met with Alejandra to develope a timeline
+11:00-12:00 met with Alejandra to developed a timeline
 1 hour 
 
 8/12/13
