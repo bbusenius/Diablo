@@ -1,0 +1,753 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Welcome to Diablo-Python’s documentation! &mdash; Diablo-Python 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Diablo-Python 0.0.1 documentation" href="#" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="#">Diablo-Python 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="welcome-to-diablo-python-s-documentation">
+<h1>Welcome to Diablo-Python&#8217;s documentation!<a class="headerlink" href="#welcome-to-diablo-python-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+</ul>
+</div>
+<div class="section" id="module-simple_math">
+<span id="simple-math-package"></span><h1><tt class="docutils literal"><span class="pre">simple_math</span></tt> Package<a class="headerlink" href="#module-simple_math" title="Permalink to this headline">¶</a></h1>
+<p>This module has very basic math functions not found in the math module.
+Some of the functions here, require the math module.</p>
+<dl class="function">
+<dt id="simple_math.average">
+<tt class="descclassname">simple_math.</tt><tt class="descname">average</tt><big>(</big><em>numbers</em>, <em>numtype='float'</em><big>)</big><a class="headerlink" href="#simple_math.average" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the average or mean of a list of numbers</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">numbers: a list of integers or floating point numbers.</p>
+<p class="last">numtype: string, &#8216;decimal&#8217; or &#8216;float&#8217;; the type of number to return.</p>
+</dd>
+<dt>Returns:</dt>
+<dd>The average (mean) of the numbers as a floating point number
+or a Decimal object.</dd>
+<dt>Requires:</dt>
+<dd>The math module</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="simple_math.circle_area">
+<tt class="descclassname">simple_math.</tt><tt class="descname">circle_area</tt><big>(</big><em>radius</em><big>)</big><a class="headerlink" href="#simple_math.circle_area" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the area of a circle.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>radius: The radius of a circle.</dd>
+<dt>Returns:</dt>
+<dd>The area of a circle as an integer.</dd>
+<dt>Requires:</dt>
+<dd>The math module.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="simple_math.circle_circumference">
+<tt class="descclassname">simple_math.</tt><tt class="descname">circle_circumference</tt><big>(</big><em>radius</em><big>)</big><a class="headerlink" href="#simple_math.circle_circumference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the circumference of a circle.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>radius: The radius of a circle.</dd>
+<dt>Returns: </dt>
+<dd>Integer &gt; circumference of a circle.</dd>
+<dt>Requires:</dt>
+<dd>The math module.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="simple_math.compound_interest">
+<tt class="descclassname">simple_math.</tt><tt class="descname">compound_interest</tt><big>(</big><em>principal</em>, <em>annual_rate</em>, <em>years</em><big>)</big><a class="headerlink" href="#simple_math.compound_interest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the future value of money invested at an annual
+interest rate, compounded annually for a given number of years.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">principal: The beginning ammount of money invested</p>
+<p>annual_rate: The interest rate paid out</p>
+<p class="last">years: The number of years invested</p>
+</dd>
+<dt>Returns:</dt>
+<dd>A basic calculation of compound interest.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="simple_math.future_value">
+<tt class="descclassname">simple_math.</tt><tt class="descname">future_value</tt><big>(</big><em>present_value</em>, <em>annual_rate</em>, <em>periods_per_year</em>, <em>years</em><big>)</big><a class="headerlink" href="#simple_math.future_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the future value of money invested at an anual interest rate,
+x times per year, for a given number of years.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">present_value: int or float, the current value of the money (principal).</p>
+<p>annual_rate: float 0 to 1 e.g., .5 = 50%), the interest rate paid out.</p>
+<p>periods_per_year: int, the number of times money is invested per year.</p>
+<p class="last">years: int, the number of years invested.</p>
+</dd>
+<dt>Returns:</dt>
+<dd>Float, the future value of the money invested with compound interest.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="simple_math.get_full_binary_tree_leaves">
+<tt class="descclassname">simple_math.</tt><tt class="descname">get_full_binary_tree_leaves</tt><big>(</big><em>height</em><big>)</big><a class="headerlink" href="#simple_math.get_full_binary_tree_leaves" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the number of leaves in a complete binary tree in which each internal 
+node has exactly two children. A full binary tree is complete if every leaf 
+in the tree has the same depth. A leaf is a node without children</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>height: integer, the height of the tree. Height is defined by the number
+of edges from the furthest child to the root. An edge is the line segment
+that runs between and connects nodes.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="simple_math.get_full_binary_tree_nodes">
+<tt class="descclassname">simple_math.</tt><tt class="descname">get_full_binary_tree_nodes</tt><big>(</big><em>height</em><big>)</big><a class="headerlink" href="#simple_math.get_full_binary_tree_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the number of internal nodes in a complete binary tree in which each 
+internal node has exactly two children. A full binary tree is complete if every 
+leaf in the tree has the same depth. Internal nodes include both leaves and 
+internal nodes. The root node is also included in this calculation.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>height: integer, the height of the tree. Height is defined by the number
+of edges from the furthest child to the root. An edge is the line segment
+that runs between and connects nodes.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="simple_math.get_percentage">
+<tt class="descclassname">simple_math.</tt><tt class="descname">get_percentage</tt><big>(</big><em>a</em>, <em>b</em>, <em>i=False</em>, <em>r=False</em><big>)</big><a class="headerlink" href="#simple_math.get_percentage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the percentage of one number over another.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">a: The number that is a percent, int or float.</p>
+<p>b: The base number that a is a percent of, int or float.</p>
+<p>i: Optional boolean integer. True if the user wants the result returned as 
+a whole number. Assumes False.</p>
+<p class="last">r: Optional boolean round. True if the user wants the result rounded. 
+Rounds to the second decimal point on floating point numbers. Assumes False.</p>
+</dd>
+<dt>Returns:</dt>
+<dd>The argument a as a percentage of b. Throws a warning if integer is set to True
+and round is set to False.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="simple_math.get_slope">
+<tt class="descclassname">simple_math.</tt><tt class="descname">get_slope</tt><big>(</big><em>point1</em>, <em>point2</em><big>)</big><a class="headerlink" href="#simple_math.get_slope" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the slope of the line connecting two points on a grid.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">point1: Tuple or list, the x and y coordinate of the first point.</p>
+<p class="last">point2: Tuple or list, the x and y coordinate of the second point</p>
+</dd>
+<dt>Returns:</dt>
+<dd>the slope of a line connecting two points on a grid.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="simple_math.is_leap_year">
+<tt class="descclassname">simple_math.</tt><tt class="descname">is_leap_year</tt><big>(</big><em>year</em><big>)</big><a class="headerlink" href="#simple_math.is_leap_year" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks to see if a given year is a leap year.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>Integer, the year to test.</dd>
+<dt>Returns: </dt>
+<dd>Boolean</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="simple_math.median">
+<tt class="descclassname">simple_math.</tt><tt class="descname">median</tt><big>(</big><em>data</em><big>)</big><a class="headerlink" href="#simple_math.median" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates  the median of a list of integers or floating point numbers.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>data: A list of integers or floating point numbers</dd>
+<dt>Returns:</dt>
+<dd>Sorts the list numerically and returns the middle number if the list has an odd number 
+of items. If the list contains an even number of items the mean of the two middle numbers
+is returned.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="simple_math.miles_to_feet">
+<tt class="descclassname">simple_math.</tt><tt class="descname">miles_to_feet</tt><big>(</big><em>miles</em><big>)</big><a class="headerlink" href="#simple_math.miles_to_feet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a number of miles to feet.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>miles: Number of miles we want to convert.</dd>
+<dt>Returns:</dt>
+<dd>Floating point number as the number of
+feet in the given miles.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="simple_math.point_distance">
+<tt class="descclassname">simple_math.</tt><tt class="descname">point_distance</tt><big>(</big><em>point1</em>, <em>point2</em><big>)</big><a class="headerlink" href="#simple_math.point_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the distance beteen two points on a plane.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">point1: Tuple or list, the x and y coordinate of the first point.</p>
+<p class="last">point2: Tuple or list, the x and y coordinate of the second point.</p>
+</dd>
+<dt>Returns:</dt>
+<dd>The distance between the two points as a floating point number.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="simple_math.rectangle_area">
+<tt class="descclassname">simple_math.</tt><tt class="descname">rectangle_area</tt><big>(</big><em>width</em>, <em>height</em><big>)</big><a class="headerlink" href="#simple_math.rectangle_area" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the area of a rectangle with the given width and height.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first docutils">
+<dt>width:</dt>
+<dd>Integer or float, width of the rectangle.</dd>
+</dl>
+<p class="last">height: Integer or float, height of the rectangle.</p>
+</dd>
+<dt>Returns:</dt>
+<dd>The area of a rectangle as an integer or float.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="simple_math.rectangle_perimeter">
+<tt class="descclassname">simple_math.</tt><tt class="descname">rectangle_perimeter</tt><big>(</big><em>width</em>, <em>height</em><big>)</big><a class="headerlink" href="#simple_math.rectangle_perimeter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the perimeter of a rectangle with the given width and height.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>width:</dt>
+<dd>Integer or float, width of the rectangle.</dd>
+<dt>height:</dt>
+<dd>Integer or float, height of the rectangle.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>Integer or float, perimeter of a rectangle.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="simple_math.regular_polygon_area">
+<tt class="descclassname">simple_math.</tt><tt class="descname">regular_polygon_area</tt><big>(</big><em>number_of_sides</em>, <em>length_of_sides</em><big>)</big><a class="headerlink" href="#simple_math.regular_polygon_area" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the area of a regular polygon (with sides of equal length).</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">number_of_sides: Integer, the number of sides of the polygon</p>
+<p class="last">length_of_sides: Integer or floating point number, the length of the sides</p>
+</dd>
+<dt>Returns:</dt>
+<dd>The area of a regular polygon as an integer or floating point number</dd>
+<dt>Requires:</dt>
+<dd>The math module</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="simple_math.savings_rate">
+<tt class="descclassname">simple_math.</tt><tt class="descname">savings_rate</tt><big>(</big><em>take_home_pay</em>, <em>spending</em>, <em>numtype='float'</em><big>)</big><a class="headerlink" href="#simple_math.savings_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate net take-home pay including employer retirement savings match 
+using the formula laid out by Mr. Money Mustache: 
+<a class="reference external" href="http://www.mrmoneymustache.com/2015/01/26/calculating-net-worth/">http://www.mrmoneymustache.com/2015/01/26/calculating-net-worth/</a></p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">take_home_pay: float or int, monthly take-home pay</p>
+<p>spending: float or int, monthly spending</p>
+<p class="last">numtype: string, &#8216;decimal&#8217; or &#8216;float&#8217;; the type of number to return.</p>
+</dd>
+<dt>Returns:</dt>
+<dd>your monthly savings rate expressed as a percentage.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="simple_math.standard_deviation">
+<tt class="descclassname">simple_math.</tt><tt class="descname">standard_deviation</tt><big>(</big><em>variance</em><big>)</big><a class="headerlink" href="#simple_math.standard_deviation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the standard deviation.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>variance: The variance of a group of numbers.</dd>
+<dt>Returns:</dt>
+<dd>The standard deviation as a floating point number.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="simple_math.take_home_pay">
+<tt class="descclassname">simple_math.</tt><tt class="descname">take_home_pay</tt><big>(</big><em>gross_pay</em>, <em>employer_match</em>, <em>taxes_and_fees</em>, <em>numtype='float'</em><big>)</big><a class="headerlink" href="#simple_math.take_home_pay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate net take-home pay including employer retirement savings match 
+using the formula laid out by Mr. Money Mustache: 
+<a class="reference external" href="http://www.mrmoneymustache.com/2015/01/26/calculating-net-worth/">http://www.mrmoneymustache.com/2015/01/26/calculating-net-worth/</a></p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">gross_pay: float or int, gross monthly pay.</p>
+<p>employer_match: float or int, the 401(k) match from your employer.</p>
+<p>taxes_and_fees: list, taxes and fees that are deducted from your paycheck.</p>
+<p class="last">numtype: string, &#8216;decimal&#8217; or &#8216;float&#8217;; the type of number to return.</p>
+</dd>
+<dt>Returns:</dt>
+<dd>your monthly take-home pay.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="simple_math.total_seconds">
+<tt class="descclassname">simple_math.</tt><tt class="descname">total_seconds</tt><big>(</big><em>hours</em>, <em>minutes</em>, <em>seconds</em><big>)</big><a class="headerlink" href="#simple_math.total_seconds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of seconds in the given number of hours, 
+minutes, and seconds.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>hours:</dt>
+<dd>Integer, number of hours.</dd>
+<dt>minutes:</dt>
+<dd>Integer, number of minutes.</dd>
+<dt>seconds:</dt>
+<dd>Integer, number of seconds.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>Integer, time in seconds.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="simple_math.triangle_area">
+<tt class="descclassname">simple_math.</tt><tt class="descname">triangle_area</tt><big>(</big><em>point1</em>, <em>point2</em>, <em>point3</em><big>)</big><a class="headerlink" href="#simple_math.triangle_area" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses Heron&#8217;s formula to find the area of a triangle 
+based on the coordinates of three points.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">point1: list or tuple, the x y coordinate of point one.</p>
+<p>point2: list or tuple, the x y coordinate of point two.</p>
+<p class="last">point3: list or tuple, the x y coordinate of point three.</p>
+</dd>
+<dt>Returns:</dt>
+<dd>The area of a triangle as a floating point number.</dd>
+<dt>Requires:</dt>
+<dd>The math module, point_distance().</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="simple_math.variance">
+<tt class="descclassname">simple_math.</tt><tt class="descname">variance</tt><big>(</big><em>numbers</em>, <em>type='population'</em><big>)</big><a class="headerlink" href="#simple_math.variance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the population or sample variance of a list of numbers. 
+A large number means the results are all over the place, while a 
+small number means the results are comparatively close to the average.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">numbers: a list  of integers or floating point numbers to compare.</p>
+<p class="last">type: string, &#8216;population&#8217; or &#8216;sample&#8217;, the kind of variance to be computed.</p>
+</dd>
+<dt>Returns:</dt>
+<dd>The computed population or sample variance. 
+Defaults to population variance.</dd>
+<dt>Requires:</dt>
+<dd>The math module, average()</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-file_parsing">
+<span id="file-parsing-package"></span><h1><tt class="docutils literal"><span class="pre">file_parsing</span></tt> Package<a class="headerlink" href="#module-file_parsing" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="file_parsing.add_newlines">
+<tt class="descclassname">file_parsing.</tt><tt class="descname">add_newlines</tt><big>(</big><em>f</em>, <em>output</em>, <em>char</em><big>)</big><a class="headerlink" href="#file_parsing.add_newlines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds line breaks after every occurance of a given character in a file.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">f: string, path to input file.</p>
+<p class="last">output: string, path to output file.</p>
+</dd>
+<dt>Returns:</dt>
+<dd>None.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="file_parsing.add_whitespace_before">
+<tt class="descclassname">file_parsing.</tt><tt class="descname">add_whitespace_before</tt><big>(</big><em>char</em>, <em>input_file</em>, <em>output_file</em><big>)</big><a class="headerlink" href="#file_parsing.add_whitespace_before" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a space before a character if there&#8217;s isn&#8217;t one already.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">char: string, character that needs a space before it.</p>
+<p>input_file: string, path to file to parse.</p>
+<p class="last">output_file: string, path to destination file.</p>
+</dd>
+<dt>Returns:</dt>
+<dd>None.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="file_parsing.are_numeric">
+<tt class="descclassname">file_parsing.</tt><tt class="descname">are_numeric</tt><big>(</big><em>string_list</em><big>)</big><a class="headerlink" href="#file_parsing.are_numeric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks a list of strings to see that all values in the list are
+numeric. Returns the name of the offending string if it is  
+not numeric.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>string_list: a list of strings to test.</dd>
+<dt>Returns:</dt>
+<dd>boolean or string</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="file_parsing.copy_web_file_to_local">
+<tt class="descclassname">file_parsing.</tt><tt class="descname">copy_web_file_to_local</tt><big>(</big><em>file_path</em>, <em>target_path</em><big>)</big><a class="headerlink" href="#file_parsing.copy_web_file_to_local" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copies a file from its location on the web to a designated 
+place on the local machine.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">file_path: Complete url of the file to copy, string (e.g. <a class="reference external" href="http://fool.com/input.css">http://fool.com/input.css</a>).</p>
+<p class="last">target_path: Path and name of file on the local machine, string. (e.g. /directory/output.css)</p>
+</dd>
+<dt>Returns:</dt>
+<dd>None.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="file_parsing.get_line_count">
+<tt class="descclassname">file_parsing.</tt><tt class="descname">get_line_count</tt><big>(</big><em>fname</em><big>)</big><a class="headerlink" href="#file_parsing.get_line_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Counts the number of lines in a file.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>fname: string, name of the file.</dd>
+<dt>Returns:</dt>
+<dd>integer, the number of lines in the file.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="file_parsing.get_web_file">
+<tt class="descclassname">file_parsing.</tt><tt class="descname">get_web_file</tt><big>(</big><em>path</em><big>)</big><a class="headerlink" href="#file_parsing.get_web_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a file over http.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>path: string url of the desired file.</dd>
+<dt>Returns:</dt>
+<dd>The desired file as a string.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="file_parsing.indent_css">
+<tt class="descclassname">file_parsing.</tt><tt class="descname">indent_css</tt><big>(</big><em>f</em>, <em>output</em><big>)</big><a class="headerlink" href="#file_parsing.indent_css" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indentes css that has not been indented and saves it to a new file.
+A new file is created if the output destination does not already exist.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">f: string, path to file.</p>
+<p class="last">output: string, path/name of the output file (e.g. /directory/output.css).</p>
+</dd>
+</dl>
+<p>print type(response.read())</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>None.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="file_parsing.is_int">
+<tt class="descclassname">file_parsing.</tt><tt class="descname">is_int</tt><big>(</big><em>string</em><big>)</big><a class="headerlink" href="#file_parsing.is_int" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if a string is an integer. If the string value is an integer
+return True, otherwise return False.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>string: a string to test.</dd>
+<dt>Returns: </dt>
+<dd>boolean</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="file_parsing.is_numeric">
+<tt class="descclassname">file_parsing.</tt><tt class="descname">is_numeric</tt><big>(</big><em>string</em><big>)</big><a class="headerlink" href="#file_parsing.is_numeric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if a string is numeric. If the string value is an integer
+or a float, return True, otherwise False. Can be used to test 
+soley for floats as well.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>string: a string to test.</dd>
+<dt>Returns: </dt>
+<dd>boolean</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="file_parsing.reformat_css">
+<tt class="descclassname">file_parsing.</tt><tt class="descname">reformat_css</tt><big>(</big><em>input_file</em>, <em>output_file</em><big>)</big><a class="headerlink" href="#file_parsing.reformat_css" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reformats poorly written css. This function does not validate or fix errors in the code.
+It only gives code the proper indentation.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">input_file: string, path to the input file.</p>
+<p class="last">output_file: string, path to where the reformatted css should be saved. If the target file
+doesn&#8217;t exist, a new file is created.</p>
+</dd>
+<dt>Returns:</dt>
+<dd>None.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="file_parsing.total_hours">
+<tt class="descclassname">file_parsing.</tt><tt class="descname">total_hours</tt><big>(</big><em>input_files</em><big>)</big><a class="headerlink" href="#file_parsing.total_hours" title="Permalink to this definition">¶</a></dt>
+<dd><p>Totals the hours for a given projct. Takes a list of input files for 
+which to total the hours. Each input file represents a project.
+There are only multiple files for the same project when the duration 
+was more than a year. A typical entry in an input file might look 
+like this:</p>
+<p>8/24/14
+9:30-12:00 wrote foobar code for x, wrote a unit test for foobar code, tested. 
+2.5 hours</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>input_files: a list of files to parse.</dd>
+<dt>Returns:</dt>
+<dd>float: the total number of hours spent on the project.</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-convert_php">
+<span id="convert-php-package"></span><h1><tt class="docutils literal"><span class="pre">convert_php</span></tt> Package<a class="headerlink" href="#module-convert_php" title="Permalink to this headline">¶</a></h1>
+<p>Module for converting and translating PHP data to other 
+formats and structures. This includes the ability to unserialize
+and translate arrays to other languages.</p>
+<dl class="class">
+<dt id="convert_php.ConvertPHP">
+<em class="property">class </em><tt class="descclassname">convert_php.</tt><tt class="descname">ConvertPHP</tt><a class="headerlink" href="#convert_php.ConvertPHP" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class for unserializing and translating php data structures
+to other formats and languages.</p>
+<dl class="method">
+<dt id="convert_php.ConvertPHP.get_built_in">
+<tt class="descname">get_built_in</tt><big>(</big><em>language</em>, <em>level</em>, <em>data</em><big>)</big><a class="headerlink" href="#convert_php.ConvertPHP.get_built_in" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the return string for a language that&#8217;s supported by python.
+Used in cases when python provides support for the conversion.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">language: string the langage to return for.</p>
+<p>level: integer, the indentation level.</p>
+<p class="last">data: python data structure being converted (list of tuples)</p>
+</dd>
+<dt>Returns:</dt>
+<dd>None, updates self.data_structure</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="convert_php.ConvertPHP.get_inner_template">
+<tt class="descname">get_inner_template</tt><big>(</big><em>language</em>, <em>template_type</em>, <em>indentation</em>, <em>key</em>, <em>val</em><big>)</big><a class="headerlink" href="#convert_php.ConvertPHP.get_inner_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the requested template for the given language.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">language: string, the language of the template to look for.</p>
+<p>template_type: string, &#8216;iterable&#8217; or &#8216;singular&#8217;. 
+An iterable template is needed when the value is an iterable
+and needs more unpacking, e.g. list, tuple. A singular template 
+is needed when unpacking is complete and the value is singular, 
+e.g. string, int, float.</p>
+<p>indentation: int, the indentation level.</p>
+<p>key: multiple types, the array key.</p>
+<p class="last">val: multiple types, the array values</p>
+</dd>
+<dt>Returns:</dt>
+<dd>string, template formatting for arrays by language.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="convert_php.ConvertPHP.is_built_in">
+<tt class="descname">is_built_in</tt><big>(</big><em>language</em><big>)</big><a class="headerlink" href="#convert_php.ConvertPHP.is_built_in" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests to see if a language is a built in type
+supported by python.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>language: string, language to test for.</dd>
+<dt>Returns: </dt>
+<dd>boolean</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="convert_php.ConvertPHP.is_iterable">
+<tt class="descname">is_iterable</tt><big>(</big><em>data</em><big>)</big><a class="headerlink" href="#convert_php.ConvertPHP.is_iterable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks to see if an object is an iterable.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>data: a data object.</dd>
+<dt>Returns:</dt>
+<dd>boolean</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="convert_php.ConvertPHP.translate_array">
+<tt class="descname">translate_array</tt><big>(</big><em>string</em>, <em>language</em>, <em>level=3</em>, <em>retdata=False</em><big>)</big><a class="headerlink" href="#convert_php.ConvertPHP.translate_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unserializes a serialized php array and prints it to
+the console as a data structure in the specified language.
+Used to translate or convert a php array into a data structure 
+in another language. Currently supports, PHP, Python, Javascript,
+and JSON.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">string: a string of serialized php</p>
+<p>language: a string representing the desired output 
+format for the array.</p>
+<p>level: integer, indentation level in spaces. 
+Defaults to 3.</p>
+<p class="last">retdata: boolean, the method will return the string
+in addition to printing it if set to True. Defaults 
+to false.</p>
+</dd>
+<dt>Returns:</dt>
+<dd>None but prints a string to the console if retdata is 
+False, otherwise returns a string.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="convert_php.ConvertPHP.translate_val">
+<tt class="descname">translate_val</tt><big>(</big><em>language</em>, <em>value</em><big>)</big><a class="headerlink" href="#convert_php.ConvertPHP.translate_val" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translates string representations of language specific 
+values that vary between languages. Used to translate
+python values to their counterparts in other languages.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">language: string, the language for which to
+return values.</p>
+<p class="last">value: string, the value to translate.</p>
+</dd>
+<dt>Returns:</dt>
+<dd>string representation of a value in a given language.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to Diablo-Python&#8217;s documentation!</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+<li><a class="reference internal" href="#module-simple_math"><tt class="docutils literal"><span class="pre">simple_math</span></tt> Package</a></li>
+<li><a class="reference internal" href="#module-file_parsing"><tt class="docutils literal"><span class="pre">file_parsing</span></tt> Package</a></li>
+<li><a class="reference internal" href="#module-convert_php"><tt class="docutils literal"><span class="pre">convert_php</span></tt> Package</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="#">Diablo-Python 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2016, Brad Busenius.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>
