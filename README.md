@@ -15,7 +15,7 @@ or
 pip3 install -e git+https://github.com/bbusenius/Diablo-Python.git#egg=diablo_python 
 ```
 
-pass the -e flag to retain the editable source.
+Pass the -e flag to retain the editable source.
 
 ## The following packages are included in Diablo-Python
 
