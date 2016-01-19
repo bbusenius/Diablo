@@ -1,7 +1,21 @@
 # Diablo-Python
 ## Python code library
 
-Diablo-Python is a boring simple library of reusable functions and utilities that can be reused in various projects. Diablo-Python probably isn't of much interest to the public as it's really just a personal library of repurposable code. 
+Diablo-Python is a boring simple library of reusable functions and utilities that can be reused in various projects. Diablo-Python probably isn't of much interest to the public as it's really just a personal library of repurposable code.
+
+## Installation
+
+This package is pip installable. Eiter of the following commands should work depending on what kind of an environment you're working in.
+```
+pip install git+https://github.com/bbusenius/Diablo-Python.git#egg=diablo_python
+```
+or 
+
+```
+pip3 install -e git+https://github.com/bbusenius/Diablo-Python.git#egg=diablo_python 
+```
+
+pass the -e flag to retain the editable source.
 
 ## The following packages are included in Diablo-Python
 
