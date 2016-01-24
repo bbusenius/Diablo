@@ -7,14 +7,10 @@ setup(
                 'for inclusion in projects and general use.',
     version='0.0.1',
     author='Brad Busenius',
+    author_email='bbusenius@gmail.com',
     packages = find_packages(),
-    #py_modules=[
-    #    'convert_php', 
-    #    'file_parsing',
-    #    'simple_math', 
-    #], 
     url='https://github.com/bbusenius/Diablo-Python',
-    license='BSD licence',
+    license='GNU GPLv3, see LICENCE.txt',
     install_requires=[
         'phpserialize',
     ],
