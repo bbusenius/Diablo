@@ -10,7 +10,7 @@ setup(
     author_email='bbusenius@gmail.com',
     packages = find_packages(),
     url='https://github.com/bbusenius/Diablo-Python',
-    license='GNU GPLv3, see LICENCE.txt',
+    license='GNU GPLv3, see LICENSE.txt',
     install_requires=[
         'phpserialize',
     ],
