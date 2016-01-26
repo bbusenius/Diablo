@@ -5,7 +5,7 @@ Diablo-Python is a boring simple library of reusable functions and utilities tha
 
 ## Installation
 
-This package is pip installable. Eiter of the following commands should work depending on what kind of an environment you're working in.
+This package is pip installable. Either of the following commands should work depending on what kind of an environment you're working in.
 ```
 pip install git+https://github.com/bbusenius/Diablo-Python.git#egg=diablo_python
 ```
