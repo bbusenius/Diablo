@@ -7,6 +7,7 @@ import unittest
 #import sys
 #sys.path.append("..")
 import file_parsing as fp
+from decimal import *
 import os
 
 import pkg_resources
@@ -120,6 +121,32 @@ class test_file_parsing(unittest.TestCase):
         assert val10 == False, "Should be False, returned " + str(val10)
         assert val11 == False, "Should be False, returned " + str(val11)
         assert val12 == True, "Should be True, returned " + str(val12)
+
+    
+    def test_is_number_of_some_sort(self):
+        val1 = fp.is_number_of_some_sort(4)   
+        val2 = fp.is_number_of_some_sort(4.4)   
+        val3 = fp.is_number_of_some_sort(Decimal(4.4))
+        val4 = fp.is_number_of_some_sort(Decimal(4))
+        val5 = fp.is_number_of_some_sort('4')
+        val6 = fp.is_number_of_some_sort('4.4')
+        val7 = fp.is_number_of_some_sort('')
+        val8 = fp.is_number_of_some_sort(None)
+        val9 = fp.is_number_of_some_sort('Son of Mogh')
+
+
+        self.assertEqual(val1, True, 'Should be True, returned False')
+        self.assertEqual(val2, True, 'Should be True, returned False')
+        self.assertEqual(val3, True, 'Should be True, returned False')
+        self.assertEqual(val4, True, 'Should be True, returned False')
+        self.assertEqual(val5, False, 'Should be False, returned True')
+        self.assertEqual(val6, False, 'Should be False, returned True')
+        self.assertEqual(val7, False, 'Should be False, returned True')
+        self.assertEqual(val8, False, 'Should be False, returned True')
+        self.assertEqual(val9, False, 'Should be False, returned True')
+
+
+
 
 # Run all tests
 #if __name__ == "__main__":

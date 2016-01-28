@@ -198,8 +198,29 @@ def is_numeric(string):
     try:
         float(string)
         return True
-    except ValueError:
+    except:
         return False
+
+
+def is_number_of_some_sort(num):
+    """
+    Test to see if an argument is an acutal number.
+    Returns True if passed an int, float, or decimal,
+    otherwise False.
+
+    Args:
+        num: any type.
+
+    Returns:
+        boolean
+    """
+    if is_numeric(num):
+        try:
+            num / 2
+            return True
+        except:
+            return False
+    return False
 
 
 def are_numeric(string_list):
