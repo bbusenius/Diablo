@@ -131,8 +131,7 @@ class test_file_parsing(unittest.TestCase):
         val5 = fp.is_number_of_some_sort('4')
         val6 = fp.is_number_of_some_sort('4.4')
         val7 = fp.is_number_of_some_sort('')
-        val8 = fp.is_number_of_some_sort(None)
-        val9 = fp.is_number_of_some_sort('Son of Mogh')
+        val8 = fp.is_number_of_some_sort('Son of Mogh')
 
 
         self.assertEqual(val1, True, 'Should be True, returned False')
@@ -143,8 +142,6 @@ class test_file_parsing(unittest.TestCase):
         self.assertEqual(val6, False, 'Should be False, returned True')
         self.assertEqual(val7, False, 'Should be False, returned True')
         self.assertEqual(val8, False, 'Should be False, returned True')
-        self.assertEqual(val9, False, 'Should be False, returned True')
-
 
 
 

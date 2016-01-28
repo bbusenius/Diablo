@@ -198,7 +198,7 @@ def is_numeric(string):
     try:
         float(string)
         return True
-    except:
+    except ValueError:
         return False
 
 
@@ -209,7 +209,7 @@ def is_number_of_some_sort(num):
     otherwise False.
 
     Args:
-        num: any type.
+        num: int, float, decimal, or string.
 
     Returns:
         boolean
