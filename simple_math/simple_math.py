@@ -454,9 +454,14 @@ def savings_rate(take_home_pay, spending, numtype='float'):
         your monthly savings rate expressed as a percentage.
     """
 
-    if numtype == 'decimal': 
-         return ((Decimal(take_home_pay) - Decimal(spending)) / (Decimal(take_home_pay))) * Decimal(100.0)
+    if numtype == 'decimal':
+         try: 
+            return ((Decimal(take_home_pay) - Decimal(spending)) / (Decimal(take_home_pay))) * Decimal(100.0)
+         except(InvalidOperation):
+            return Decimal(0.0)
     else:
-        return ((float(take_home_pay) - float(spending)) / (float(take_home_pay))) * 100.0
-
+        try:
+            return ((float(take_home_pay) - float(spending)) / (float(take_home_pay))) * 100.0
+        except(ZeroDivisionError):
+            return 0.0
 
