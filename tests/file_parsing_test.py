@@ -144,6 +144,16 @@ class test_file_parsing(unittest.TestCase):
         self.assertEqual(val8, False, 'Should be False, returned True')
 
 
+    def test_clean_strings(self):
+        l1 = fp.clean_strings(['Worf ', ' Dax', ' Picard '])
+        l2 = fp.clean_strings([' Worf ', 2])
+        l3 = fp.clean_strings(['Borg', None])
+        l4 = fp.clean_strings([2.2, set([]), '2.2 '])
+
+        self.assertEqual(l1, ['Worf', 'Dax', 'Picard'], 'Should be True, returned False')
+        self.assertEqual(l2, ['Worf', 2], 'Should be True, returned False')
+        self.assertEqual(l3, ['Borg', None], 'Should be True, returned False')
+        self.assertEqual(l4, [2.2, set([]), '2.2'], 'Should be True, returned False')
 
 # Run all tests
 #if __name__ == "__main__":
