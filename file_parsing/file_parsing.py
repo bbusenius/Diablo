@@ -322,7 +322,9 @@ def clean_strings(iterable):
 def excel_to_html(path, sheetname='Sheet1', css_classes='', merge=False):
     """
     Convert an excel spreadsheet to an html table.
-    Supports the conversion of merged cells.
+    This function supports the conversion of merged 
+    cells. It can be used in code or run from the 
+    command-line. 
 
     Args:
         path: string, path to the spreadsheet.
@@ -335,6 +337,15 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', merge=False):
 
         merge: boolean, whether or not to combine
         cells that were merged in the spreadsheet.
+
+    Example use from the command-line:
+
+        excel_to_html -p myfile.xlsx -s SheetName -css diablo-python -m true
+        
+        -p path to file
+        -s name of the sheet to convert
+        -css classes to apply
+        -m true or false
 
     Returns:
         string, html table 
