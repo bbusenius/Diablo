@@ -9,10 +9,18 @@ setup(
     author='Brad Busenius',
     author_email='bbusenius@gmail.com',
     packages = find_packages(),
+    entry_points = {
+        'console_scripts': [
+            'excel_to_html = commands:run_excel_to_html',
+        ],
+    },
     url='https://github.com/bbusenius/Diablo-Python',
     license='GNU GPLv3, see LICENSE.txt',
     install_requires=[
+        'beautifulsoup4',
+        'pandas',
         'phpserialize',
+        'xlrd',
     ],
     test_suite='tests',
     zip_safe=False

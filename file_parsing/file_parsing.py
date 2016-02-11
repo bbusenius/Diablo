@@ -18,6 +18,10 @@
 
 import urllib.request, urllib.error, urllib.parse
 import re
+import pandas as pd
+import sys
+from bs4 import BeautifulSoup
+import copy
 
 def get_web_file(path):
     """Gets a file over http.
@@ -314,3 +318,280 @@ def clean_strings(iterable):
             retval.append(val)
     return retval
 
+
+def excel_to_html(path, sheetname='Sheet1', css_classes='', merge=False):
+    """
+    Convert an excel spreadsheet to an html table.
+    Supports the conversion of merged cells.
+
+    Args:
+        path: string, path to the spreadsheet.
+
+        sheetname: string, name of the sheet
+        to convert. 
+
+        css_classes: string, space separated
+        classnames to append to the table.
+
+        merge: boolean, whether or not to combine
+        cells that were merged in the spreadsheet.
+
+    Returns:
+        string, html table 
+    """
+
+    def get_data_on_merged_cells():
+        """
+        Build a datastructure with data 
+        on merged cells.
+        """
+        # Use this to build support for merged columns and rows???? 
+        merged_cells = xls.book.sheet_by_name(sheetname).merged_cells
+        ds = {}
+        for crange in merged_cells:
+            rlo, rhi, clo, chi = crange
+            for rowx in range(rlo, rhi):
+                for colx in range(clo, chi):
+                    # Cell (rlo, clo) (the top left one) will carry the data and 
+                    # formatting info. The remainder will be recorded as blank cells, 
+                    # but a renderer will apply the formatting info for the top left 
+                    # cell (e.g. border, pattern) to all cells in the range.
+                    #print(str(rlo) + ' ' + str(clo))
+                    #print(str(rowx) + ' ' + str(colx))
+                    parent_cell = (rlo,clo)
+                    child_cell = (rowx,colx)
+                    if not parent_cell in ds:
+                        # Return data structure is a dictionary with numeric tuples 
+                        # as keys. Each tuple holds the x, y coordinates of the cell.
+                        # The dictionary holds two values:
+                        # 1. A list with two numbers which represent the x/y count 
+                        #    starting at 1 for the current cell.
+                        # 2. A set describing which direction the cells are merged.
+                        ds[parent_cell] = [[1,1], set([])]
+                    else:
+                        if parent_cell != child_cell and child_cell[0] == parent_cell[0]:
+                            ds[parent_cell][0][0] += 1
+                            ds[parent_cell][1].add('right')
+                        elif parent_cell != child_cell and child_cell[0] > parent_cell[0]:
+                            if child_cell[1] == parent_cell[1]:
+                                ds[parent_cell][0][1] += 1
+                            ds[parent_cell][1].add('down')
+                        else:
+                            raise RuntimeError('Something went wrong')
+        return ds
+
+
+    def mark_cells_going_right(cell, curr_cell, merged_cells):
+        """
+        Add a "colspan" attribute and mark empty table 
+        columns for deletion if they are part of a 
+        merged cell going right.
+
+        Args:
+            cell: BeautifulSoup element tag object 
+            representation of the current cell.
+
+            curr_cell: tuple, numeric representation 
+            of the current cell.
+
+            merged_cells: dictionary of of data about 
+            merged cells.
+        """
+        #if curr_cell in merged_cells and merged_cells[curr_cell][1] == set(['right']):
+        try:
+            xcount = merged_cells[curr_cell][0][0]
+            cell['colspan'] = xcount
+            col_count = xcount - 1 
+            while col_count > 0:
+                cell = cell.find_next_sibling()
+                cell['class'] = 'delete'
+                col_count -= 1
+        except:
+            pass
+
+    def mark_cells_going_down(cell, curr_cell, merged_cells):
+        """
+        Add a "rowspan" attribute and mark empty table 
+        columns for deletion if they are part of a 
+        merged cell going down.
+
+        Args:
+            cell: BeautifulSoup element tag object 
+            representation of the current cell.
+
+            curr_cell: tuple, numeric representation 
+            of the current cell.
+
+            merged_cells: dictionary of of data about 
+            merged cells.
+        """
+        if curr_cell in merged_cells and merged_cells[curr_cell][1] == set(['down']):
+            ycount = merged_cells[curr_cell][0][1]
+            cell['rowspan'] = ycount 
+            row_count = ycount
+            for child_row in cell.parent.find_next_siblings(limit=row_count - 1):
+                i = 0
+                for child in child_row.children:
+                    if i == curr_cell[0] + 1:
+                        child['class'] = 'delete'
+                    i += 1
+
+    def mark_cells_going_down_and_right(cell, curr_cell, merged_cells):
+        """
+        Add "rowspan" and "colspan" attributes and mark 
+        empty columns for deletion if they are part of a 
+        merged cell going down and to the right diagonally.
+
+        Args:
+            cell: BeautifulSoup element tag object 
+            representation of the current cell.
+
+            curr_cell: tuple, numeric representation 
+            of the current cell.
+
+            merged_cells: dictionary of of data about 
+            merged cells.
+        """
+        if curr_cell in merged_cells and \
+            ('down' in merged_cells[curr_cell][1] and \
+             'right' in merged_cells[curr_cell][1]):
+            xcount = merged_cells[curr_cell][0][0]
+            ycount = merged_cells[curr_cell][0][1]
+            row_count = ycount
+            col_count = xcount
+            mark_cells_going_right(cell, curr_cell, merged_cells)
+    
+            flag = False
+            for child_row in [cell.parent] + cell.parent.find_all_next('tr', limit=row_count - 1):
+                i = 0
+                for child in child_row.find_all('td'):
+                    if i == curr_cell[1]:
+                        mark_cells_going_right(child, curr_cell, merged_cells)
+                        if not flag:
+                            child['colspan'] = col_count
+                            child['rowspan'] = row_count
+                            flag = True
+                        else:
+                            child['class'] = 'delete'
+                    i += 1
+
+
+    def is_empty_th(string):
+        """
+        Detects if a table cell is left
+        empty (is a merged cell).
+
+        Args:
+            string: string
+        """
+        if string[:8] == 'Unnamed:':
+            data = string.split(' ')
+            if is_numeric(data[1]):
+                return True
+        return False
+
+
+    def mark_header_cells(html):
+        """
+        Mark header cells for deletion if they 
+        need to be merged.
+        """
+        th = html.find_all('th')
+        for header in th:
+            txt = header.string
+            if not is_empty_th(txt):
+                count = 1
+                for sibling in header.find_next_siblings():
+                    if is_empty_th(sibling.string):
+                        count += 1
+                        sibling['class'] = 'delete'
+                    else:
+                        break
+                if count > 1:
+                    header['colspan'] = count
+
+
+    def format_properly(html):
+        """
+        Fix bad formatting from beautifulsoup.
+
+        Args:
+            html: string of html representing 
+            a table.
+        """
+        return html.replace('\n    ', '').replace('\n   </td>','</td>').replace('\n   </th>', '</th>')
+
+
+    def beautify(html):
+        """
+        Beautify the html from pandas.
+
+        Args:
+            html: table markup from pandas.
+        """
+        table = html.find('table')
+        first_tr = table.find('tr')
+        del table['border']
+        del first_tr['style']
+
+        return format_properly(html.prettify(formatter='minimal'))
+
+
+    def parse_html(html):
+        """
+        Use BeautifulSoup to correct the 
+        html for merged columns and rows.
+        What could possibly go wrong?
+
+        Args:
+            html: string
+
+        Returns:
+            string, modified html
+        """
+        row_num = 1
+        # e.g. {(4, 3): [1, 'right'], (2, 1): [1, 'down']}
+        merged_cells = get_data_on_merged_cells()
+        new_html = BeautifulSoup(html, 'html.parser')
+        rows = new_html.find('table').find('tbody').find_all('tr')
+        for row in rows:
+            cell_num = 0 # Why are we off by 1? Maybe because we set index to False in to_html?
+            cells = row.find_all('td')
+            for cell in cells:
+                #cell['class'] = str(row_num) + ' ' + str(cell_num) # DEBUG
+                curr_cell = (row_num, cell_num)
+
+                # Mark merged cells for deletion
+                mark_cells_going_right(cell, curr_cell, merged_cells)  
+                mark_cells_going_down(cell, curr_cell, merged_cells)
+                mark_cells_going_down_and_right(cell, curr_cell, merged_cells)
+ 
+                cell_num += 1
+            row_num += 1
+
+        # Mark header cells for deletion
+        mark_header_cells(new_html)
+
+        # Delete all the renegade cells at once
+        destroy = new_html.find_all(attrs={'class' : 'delete' })
+        for item in destroy:
+            item.extract()
+        
+        return beautify(new_html)
+
+
+    # Set options for pandas and load the excel file
+    pd.options.display.max_colwidth = -1
+    xls = pd.ExcelFile(path)
+
+    # Parse the sheet you're interested in, results in a Dataframe
+    df = xls.parse(sheetname)
+
+    # Convert the dataframe to html
+    panda_html = df.to_html(classes=css_classes, index=False, na_rep='')
+  
+    # Parse the panda html to merge cells and beautify the markup 
+    html = parse_html(panda_html) if merge else \
+        beautify(BeautifulSoup(panda_html, 'html.parser'))
+
+    return html
