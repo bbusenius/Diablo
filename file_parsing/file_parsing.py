@@ -338,15 +338,6 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', merge=False):
         merge: boolean, whether or not to combine
         cells that were merged in the spreadsheet.
 
-    Example use from the command-line:
-
-        excel_to_html -p myfile.xlsx -s SheetName -css diablo-python -m true
-        
-        -p path to file
-        -s name of the sheet to convert
-        -css classes to apply
-        -m true or false
-
     Returns:
         string, html table 
     """
