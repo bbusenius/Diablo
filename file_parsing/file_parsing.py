@@ -319,12 +319,14 @@ def clean_strings(iterable):
     return retval
 
 
-def excel_to_html(path, sheetname='Sheet1', css_classes='', merge=False):
+def excel_to_html(path, sheetname='Sheet1', css_classes='', \
+    caption='', summary='', details='', merge=False,):
     """
     Convert an excel spreadsheet to an html table.
     This function supports the conversion of merged 
     cells. It can be used in code or run from the 
-    command-line. 
+    command-line. If passed the correct arguments
+    it can generate fully accessible html.
 
     Args:
         path: string, path to the spreadsheet.
@@ -335,8 +337,23 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', merge=False):
         css_classes: string, space separated
         classnames to append to the table.
 
-        merge: boolean, whether or not to combine
-        cells that were merged in the spreadsheet.
+        caption: string, a short heading-like 
+        description of the table.
+
+        summary: string, short blurb about the 
+        details, e.g. "Help". If this argument
+        is passed, both caption and details must
+        also be given values.
+
+        details: string, long description 
+        regarding the purpose or how to navigate 
+        the table. If this argument is passed, 
+        both caption and summary must also be 
+        given values.
+
+        merge: boolean, whether or not to 
+        combine cells that were merged in the 
+        spreadsheet.
 
     Returns:
         string, html table 
@@ -521,7 +538,9 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', merge=False):
             html: string of html representing 
             a table.
         """
-        return html.replace('\n    ', '').replace('\n   </td>','</td>').replace('\n   </th>', '</th>')
+        return html.replace('\n    ', '').replace('\n   </td>', \
+            '</td>').replace('\n   </th>', '</th>').replace('\n   </summary>', \
+            '</summary>').replace('\n   </p>', '</p>')
 
 
     def beautify(html):
@@ -573,6 +592,27 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', merge=False):
 
         # Mark header cells for deletion
         mark_header_cells(new_html)
+
+        # Add caption if applicable
+        if caption:
+            ctag = new_html.new_tag('caption')
+            ctag.insert(0, caption) 
+            new_html.table.insert(0, ctag)
+
+        # Add summary and details if possible
+        if summary or details:
+            if not summary or not details or not caption:
+                raise RuntimeError('Both "summary" and "details" must \
+                    exist alongside a "caption". If either "summary" or \
+                    "details" is passed, the other two must also be passed.')
+            dtag = new_html.new_tag('details')
+            stag = new_html.new_tag('summary')
+            ptag = new_html.new_tag('p')
+            stag.insert(0, summary)
+            ptag.insert(0, details)
+            dtag.insert(0, stag)
+            dtag.append(ptag) 
+            new_html.table.caption.insert(1, dtag)   
 
         # Delete all the renegade cells at once
         destroy = new_html.find_all(attrs={'class' : 'delete' })

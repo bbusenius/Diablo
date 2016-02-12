@@ -29,6 +29,9 @@ def run_excel_to_html():
         -s name of the sheet to convert
         -css classes to apply
         -m true or false
+        -c caption for accessibility
+        -su summary for accessibility
+        -d details for accessibility
 
     Example use:
         
@@ -41,20 +44,33 @@ def run_excel_to_html():
     parser.add_argument('-s', nargs='?', help='The name of a sheet in our excel file. Defaults to "Sheet1".')
     parser.add_argument('-css', nargs='?', help='Space separated css classes to append to the table.')
     parser.add_argument('-m', nargs='?', help='Boolean "true" or "false", whether or not to \
-                                            attempt to combine merged cells. Defaults to false \
-                                            if no option is set.')
+        attempt to combine merged cells. Defaults to false if no option is set.')
+    parser.add_argument('-c', nargs='?', help='Caption for creating an accessible table.')
+    parser.add_argument('-su', nargs='?', help='Summary for the table. If provided, both caption \
+        and details must also be provided.')
+    parser.add_argument('-d', nargs='?', help='Long description for the details element. If provided \
+        both caption and summary must also be provided.')
+
     args = parser.parse_args()
     inputs = {'p': args.p,
               's': args.s,
               'css': args.css,
-              'm': args.m}
+              'm': args.m,
+              'c': args.c,
+              'su': args.su,
+              'd': args.d}
     
     path = inputs['p']
     sheet = inputs['s'] if inputs['s'] else 'Sheet1'
     css = inputs['css'] if inputs['css'] else ''
     merge = inputs['m'] if inputs['m'] else False
+    caption = inputs['c'] if inputs['c'] else ''
+    summary = inputs['su'] if inputs['su'] else ''
+    details = inputs['d'] if inputs['d'] else ''
 
-    html = fp.excel_to_html(path, sheetname=sheet, css_classes=css, merge=merge)
+    html = fp.excel_to_html(path, sheetname=sheet, \
+        css_classes=css, caption=caption, summary=summary, \
+        details=details, merge=merge)
 
     print(html)
 
