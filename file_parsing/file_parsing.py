@@ -320,7 +320,7 @@ def clean_strings(iterable):
 
 
 def excel_to_html(path, sheetname='Sheet1', css_classes='', \
-    caption='', summary='', details='', merge=False,):
+    caption='', details=[], merge=False,):
     """
     Convert an excel spreadsheet to an html table.
     This function supports the conversion of merged 
@@ -340,17 +340,15 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', \
         caption: string, a short heading-like 
         description of the table.
 
-        summary: string, short blurb about the 
-        details, e.g. "Help". If this argument
-        is passed, both caption and details must
-        also be given values.
-
-        details: string, long description 
-        regarding the purpose or how to navigate 
-        the table. If this argument is passed, 
-        both caption and summary must also be 
-        given values.
-
+        details: list of strings, where the first
+        item in the list is a string for the html 
+        summary element and the second item is
+        a string for the details element. The 
+        summary should be very short, e.g. "Help",
+        where as the details element should be a 
+        long description regarding the purpose or 
+        how to navigate the table.
+ 
         merge: boolean, whether or not to 
         combine cells that were merged in the 
         spreadsheet.
@@ -530,6 +528,56 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', \
                     header['colspan'] = count
 
 
+    def create_caption(html, caption):
+        """
+        Create a caption element for an 
+        accessible table and append it
+        to the right part of the tree.
+    
+        Args:
+            html: string
+
+            caption: string
+        """
+        ctag = html.new_tag('caption')
+        ctag.insert(0, caption)
+        html.table.insert(0, ctag)
+
+
+    def create_summary_and_details(html, details):
+        """
+        Create a summary and details element
+        for an accessible table and insert 
+        it into the right part of the tree.
+
+        Args:
+            html: string
+
+            details: string
+        """
+        if len(details) != 2:
+            msg = 'The "details" argument should be a list with two items. ' \
+                + 'The first item should be a string for the html summary ' \
+                + 'and the second should be a long description for the details ' \
+                + 'element. Both of those must be included and nothing else.'
+            raise RuntimeError(msg)
+
+        summary = details[0]
+        details = details[1]
+
+        if not caption:
+            create_caption(html, caption)
+
+        dtag = html.new_tag('details')
+        stag = html.new_tag('summary')
+        ptag = html.new_tag('p')
+        stag.insert(0, summary)
+        ptag.insert(0, details)
+        dtag.insert(0, stag)
+        dtag.append(ptag) 
+        html.table.caption.insert(1, dtag)   
+
+
     def format_properly(html):
         """
         Fix bad formatting from beautifulsoup.
@@ -558,7 +606,7 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', \
         return format_properly(html.prettify(formatter='minimal'))
 
 
-    def parse_html(html):
+    def parse_html(html, caption, details):
         """
         Use BeautifulSoup to correct the 
         html for merged columns and rows.
@@ -566,6 +614,10 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', \
 
         Args:
             html: string
+
+            caption: string
+
+            details: list of strings lenght of two
 
         Returns:
             string, modified html
@@ -595,24 +647,11 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', \
 
         # Add caption if applicable
         if caption:
-            ctag = new_html.new_tag('caption')
-            ctag.insert(0, caption) 
-            new_html.table.insert(0, ctag)
+            create_caption(new_html, caption)
 
         # Add summary and details if possible
-        if summary or details:
-            if not summary or not details or not caption:
-                raise RuntimeError('Both "summary" and "details" must \
-                    exist alongside a "caption". If either "summary" or \
-                    "details" is passed, the other two must also be passed.')
-            dtag = new_html.new_tag('details')
-            stag = new_html.new_tag('summary')
-            ptag = new_html.new_tag('p')
-            stag.insert(0, summary)
-            ptag.insert(0, details)
-            dtag.insert(0, stag)
-            dtag.append(ptag) 
-            new_html.table.caption.insert(1, dtag)   
+        if details:
+            create_summary_and_details(new_html, details)
 
         # Delete all the renegade cells at once
         destroy = new_html.find_all(attrs={'class' : 'delete' })
@@ -620,7 +659,6 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', \
             item.extract()
         
         return beautify(new_html)
-
 
     # Set options for pandas and load the excel file
     pd.options.display.max_colwidth = -1
@@ -633,7 +671,7 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', \
     panda_html = df.to_html(classes=css_classes, index=False, na_rep='')
   
     # Parse the panda html to merge cells and beautify the markup 
-    html = parse_html(panda_html) if merge else \
+    html = parse_html(panda_html, caption, details) if merge else \
         beautify(BeautifulSoup(panda_html, 'html.parser'))
 
     return html
