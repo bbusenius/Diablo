@@ -23,6 +23,16 @@ def run_excel_to_html():
     """
     Run the excel_to_html function from the 
     command-line.
+
+    Args:    
+        -p path to file
+        -s name of the sheet to convert
+        -css classes to apply
+        -m true or false
+
+    Example use:
+        
+        excel_to_html -p myfile.xlsx -s SheetName -css diablo-python -m true
     """
     # Capture commandline arguments. prog='' argument must
     # match the command name in setup.py entry_points
