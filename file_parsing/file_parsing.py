@@ -622,28 +622,34 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', \
         Returns:
             string, modified html
         """
-        row_num = 1
-        # e.g. {(4, 3): [1, 'right'], (2, 1): [1, 'down']}
-        merged_cells = get_data_on_merged_cells()
         new_html = BeautifulSoup(html, 'html.parser')
-        rows = new_html.find('table').find('tbody').find_all('tr')
-        for row in rows:
-            cell_num = 0 # Why are we off by 1? Maybe because we set index to False in to_html?
-            cells = row.find_all('td')
-            for cell in cells:
-                #cell['class'] = str(row_num) + ' ' + str(cell_num) # DEBUG
-                curr_cell = (row_num, cell_num)
+        if merge:
+            row_num = 1
+            # e.g. {(4, 3): [1, 'right'], (2, 1): [1, 'down']}
+            merged_cells = get_data_on_merged_cells()
+            rows = new_html.find('table').find('tbody').find_all('tr')
+            for row in rows:
+                cell_num = 0 # Why are we off by 1? Maybe because we set index to False in to_html?
+                cells = row.find_all('td')
+                for cell in cells:
+                    #cell['class'] = str(row_num) + ' ' + str(cell_num) # DEBUG
+                    curr_cell = (row_num, cell_num)
 
-                # Mark merged cells for deletion
-                mark_cells_going_right(cell, curr_cell, merged_cells)  
-                mark_cells_going_down(cell, curr_cell, merged_cells)
-                mark_cells_going_down_and_right(cell, curr_cell, merged_cells)
- 
-                cell_num += 1
-            row_num += 1
+                    # Mark merged cells for deletion
+                    mark_cells_going_right(cell, curr_cell, merged_cells)  
+                    mark_cells_going_down(cell, curr_cell, merged_cells)
+                    mark_cells_going_down_and_right(cell, curr_cell, merged_cells)
+     
+                    cell_num += 1
+                row_num += 1
 
-        # Mark header cells for deletion
-        mark_header_cells(new_html)
+            # Mark header cells for deletion
+            mark_header_cells(new_html)
+
+            # Delete all the renegade cells at once
+            destroy = new_html.find_all(attrs={'class' : 'delete' })
+            for item in destroy:
+                item.extract()
 
         # Add caption if applicable
         if caption:
@@ -652,11 +658,6 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', \
         # Add summary and details if possible
         if details:
             create_summary_and_details(new_html, details)
-
-        # Delete all the renegade cells at once
-        destroy = new_html.find_all(attrs={'class' : 'delete' })
-        for item in destroy:
-            item.extract()
         
         return beautify(new_html)
 
@@ -671,7 +672,4 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', \
     panda_html = df.to_html(classes=css_classes, index=False, na_rep='')
   
     # Parse the panda html to merge cells and beautify the markup 
-    html = parse_html(panda_html, caption, details) if merge else \
-        beautify(BeautifulSoup(panda_html, 'html.parser'))
-
-    return html
+    return parse_html(panda_html, caption, details)
