@@ -320,7 +320,7 @@ def clean_strings(iterable):
 
 
 def excel_to_html(path, sheetname='Sheet1', css_classes='', \
-    caption='', details=[], merge=False,):
+    caption='', details=[], merge=False):
     """
     Convert an excel spreadsheet to an html table.
     This function supports the conversion of merged 
@@ -417,7 +417,8 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', \
         #if curr_cell in merged_cells and merged_cells[curr_cell][1] == set(['right']):
         try:
             xcount = merged_cells[curr_cell][0][0]
-            cell['colspan'] = xcount
+            if xcount > 1: # No colspans on 1
+                cell['colspan'] = xcount
             col_count = xcount - 1 
             while col_count > 0:
                 cell = cell.find_next_sibling()
@@ -444,12 +445,12 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', \
         """
         if curr_cell in merged_cells and merged_cells[curr_cell][1] == set(['down']):
             ycount = merged_cells[curr_cell][0][1]
-            cell['rowspan'] = ycount 
+            cell['rowspan'] = ycount
             row_count = ycount
             for child_row in cell.parent.find_next_siblings(limit=row_count - 1):
                 i = 0
-                for child in child_row.children:
-                    if i == curr_cell[0] + 1:
+                for child in child_row.find_all('td'):
+                    if i == curr_cell[1]:
                         child['class'] = 'delete'
                     i += 1
 
@@ -512,6 +513,9 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', \
         """
         Mark header cells for deletion if they 
         need to be merged.
+
+        Args: 
+            html: string
         """
         th = html.find_all('th')
         for header in th:
