@@ -203,6 +203,28 @@ class test_excel_to_html(unittest.TestCase):
 
         self.assertEqual(html, test_html)
 
+
+    def test_merge_across_columns_and_rows(self):
+        test_html = '<table class="dataframe"><thead><tr><th>One</th><th>Two</th><th>Three</th><th>Four</th></tr></thead>' \
+                  + '<tbody><tr><td colspan="3" rowspan="3">1</td><td>4</td></tr><tr><td>8</td></tr><tr>' \
+                  + '<td>12</td></tr><tr><td>13</td><td>14</td><td>15</td><td>16</td></tr></tbody></table>'
+
+        html = htmlmin.minify(fp.excel_to_html(EXCEL_DIR + 'test_merged_columns_and_rows.xlsx', merge=True), \
+            remove_empty_space=True, remove_optional_attribute_quotes=False)
+
+        self.assertEqual(html, test_html)
+
+
+    def test_named_sheet(self):
+        test_html = '<table class="dataframe"><thead><tr><th>One</th><th>Two</th><th>Three</th></tr></thead>' \
+                  + '<tbody><tr><td>1</td><td>2</td><td>3</td></tr><tr><td>4</td><td>5</td><td>6</td></tr><tr>' \
+                  + '<td>7</td><td>8</td><td>9</td></tr></tbody></table>'
+
+        html = htmlmin.minify(fp.excel_to_html(EXCEL_DIR + 'test_named_sheet.xlsx', sheetname='Diablo'), \
+            remove_empty_space=True, remove_optional_attribute_quotes=False)
+
+        self.assertEqual(html, test_html)
+
 # Run all tests
 #if __name__ == "__main__":
 #    unittest.main()
