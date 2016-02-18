@@ -48,6 +48,7 @@ def run_excel_to_html():
     parser.add_argument('-d', nargs='?', help='Two strings separated by a | character. The first string \
         is for the html "summary" attribute and the second string is for the html "details" attribute. \
         both values must be provided and nothing more.')
+    parser.add_argument('-r',  action='store_true', help='Row headers. Does the table have row headers?')
 
     args = parser.parse_args()
     inputs = {'p': args.p,
@@ -55,7 +56,8 @@ def run_excel_to_html():
               'css': args.css,
               'm': args.m,
               'c': args.c,
-              'd': args.d}
+              'd': args.d,
+              'r': args.r}
     
     p = inputs['p']
     s = inputs['s'] if inputs['s'] else 'Sheet1'
@@ -63,9 +65,11 @@ def run_excel_to_html():
     m = inputs['m'] if inputs['m'] else False
     c = inputs['c'] if inputs['c'] else ''
     d = inputs['d'].split('|') if inputs['d'] else []
+    r = inputs['r'] if inputs['r'] else False
 
     html = fp.excel_to_html(p, sheetname=s, \
-        css_classes=css, caption=c, details=d, merge=m)
+        css_classes=css, caption=c, details=d, \
+        row_headers=r, merge=m)
 
     print(html)
 

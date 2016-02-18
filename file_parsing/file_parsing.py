@@ -320,7 +320,7 @@ def clean_strings(iterable):
 
 
 def excel_to_html(path, sheetname='Sheet1', css_classes='', \
-    caption='', details=[], merge=False):
+    caption='', details=[], row_headers=False, merge=False):
     """
     Convert an excel spreadsheet to an html table.
     This function supports the conversion of merged 
@@ -348,6 +348,12 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', \
         where as the details element should be a 
         long description regarding the purpose or 
         how to navigate the table.
+
+        row_headers: boolean, defaults to False.
+        Does the table have row headers? If set
+        to True, the first element in each row
+        will be a <th scope="row"> element 
+        instead of a <td> element.
  
         merge: boolean, whether or not to 
         combine cells that were merged in the 
@@ -512,7 +518,8 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', \
     def mark_header_cells(html):
         """
         Mark header cells for deletion if they 
-        need to be merged.
+        need to be merged. Also, add colspan
+        and scope attributes.
 
         Args: 
             html: string
@@ -521,6 +528,7 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', \
         for header in th:
             txt = header.string
             if not is_empty_th(txt):
+                header['scope'] = 'col'
                 count = 1
                 for sibling in header.find_next_siblings():
                     if is_empty_th(sibling.string):
@@ -530,6 +538,7 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', \
                         break
                 if count > 1:
                     header['colspan'] = count
+                    header['scope'] = 'colgroup'
 
 
     def create_caption(html, caption):
@@ -595,6 +604,28 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', \
             '</summary>').replace('\n   </p>', '</p>')
 
 
+    def add_row_headers(html):
+        """
+        Convert <td>s to <th>s if row_headers
+        is set to True.
+
+        Args:
+            html: string, table.
+        """
+        for row in html.tbody.find_all('tr'):
+            spans_rows = 'rowspan' in row.td.attrs
+            spans_columns = 'colspan' in row.td.attrs
+            new_tag = html.new_tag('th')
+            new_tag['scope'] = 'row'
+            new_tag.string = row.td.string
+            if spans_rows:
+                new_tag['rowspan'] = row.td.attrs['rowspan']
+                new_tag['scope'] = 'rowgroup'
+            if spans_columns:
+                new_tag['colspan'] = row.td.attrs['colspan']
+            row.td.replace_with(new_tag)
+
+
     def beautify(html):
         """
         Beautify the html from pandas.
@@ -654,6 +685,10 @@ def excel_to_html(path, sheetname='Sheet1', css_classes='', \
             destroy = new_html.find_all(attrs={'class' : 'delete' })
             for item in destroy:
                 item.extract()
+
+        # Convert <td>s to <th>s if needed.
+        if row_headers:
+            add_row_headers(new_html)
 
         # Add caption if applicable
         if caption:

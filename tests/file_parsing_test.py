@@ -172,7 +172,8 @@ class test_excel_to_html(unittest.TestCase):
 
 
     def test_merged_header(self):
-        test_html = '<table class="dataframe"><thead><tr><th colspan="2">One</th><th>Three</th></tr></thead>' \
+        test_html = '<table class="dataframe"><thead><tr><th colspan="2" scope="colgroup">One</th>' \
+                  + '<th scope="col">Three</th></tr></thead>' \
                   + '<tbody><tr><td>1</td><td>2</td><td>3</td></tr><tr><td>4</td><td>5</td><td>6</td></tr><tr>' \
                   + '<td>7</td><td>8</td><td>9</td></tr></tbody></table>'
 
@@ -183,7 +184,8 @@ class test_excel_to_html(unittest.TestCase):
 
     
     def test_merged_columns(self):
-        test_html = '<table class="dataframe"><thead><tr><th>One</th><th>Two</th><th>Three</th></tr></thead>' \
+        test_html = '<table class="dataframe"><thead><tr><th scope="col">One</th><th scope="col">Two</th>' \
+                  + '<th scope="col">Three</th></tr></thead>' \
                   + '<tbody><tr><td colspan="3">1</td></tr><tr><td colspan="3">4</td></tr><tr>' \
                   + '<td colspan="3">7</td></tr></tbody></table>'
 
@@ -194,7 +196,8 @@ class test_excel_to_html(unittest.TestCase):
        
 
     def test_merged_rows(self):
-        test_html = '<table class="dataframe"><thead><tr><th>One</th><th>Two</th><th>Three</th></tr></thead>' \
+        test_html = '<table class="dataframe"><thead><tr><th scope="col">One</th><th scope="col">Two</th>' \
+                  + '<th scope="col">Three</th></tr></thead>' \
                   + '<tbody><tr><td rowspan="3">1</td><td rowspan="3">2</td><td>3</td></tr><tr><td>4</td></tr><tr>' \
                   + '<td>5</td></tr></tbody></table>'
 
@@ -205,7 +208,8 @@ class test_excel_to_html(unittest.TestCase):
 
 
     def test_merge_across_columns_and_rows(self):
-        test_html = '<table class="dataframe"><thead><tr><th>One</th><th>Two</th><th>Three</th><th>Four</th></tr></thead>' \
+        test_html = '<table class="dataframe"><thead><tr><th scope="col">One</th><th scope="col">Two</th>' \
+                  + '<th scope="col">Three</th><th scope="col">Four</th></tr></thead>' \
                   + '<tbody><tr><td colspan="3" rowspan="3">1</td><td>4</td></tr><tr><td>8</td></tr><tr>' \
                   + '<td>12</td></tr><tr><td>13</td><td>14</td><td>15</td><td>16</td></tr></tbody></table>'
 
