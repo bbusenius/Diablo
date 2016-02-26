@@ -155,6 +155,17 @@ class test_file_parsing(unittest.TestCase):
         self.assertEqual(l4, [2.2, set([]), '2.2'], 'Should be True, returned False')
 
 
+    def test_is_json(self):
+        self.assertEqual(fp.is_json('{}'), True)
+        self.assertEqual(fp.is_json('{foobar}'), False)
+        self.assertEqual(fp.is_json('{"foo":123}'), True)
+        self.assertEqual(fp.is_json("{'foo':123}"), False)
+        self.assertEqual(fp.is_json('This is a test'), False)
+        self.assertEqual(fp.is_json("{\"foo\":123 }"), True)
+        self.assertRaises(TypeError, fp.is_json, 123)
+        self.assertRaises(TypeError, fp.is_json, 1.23)       
+
+
 class test_excel_to_html(unittest.TestCase):
     """
     Test the conversion of excel files to
@@ -228,6 +239,7 @@ class test_excel_to_html(unittest.TestCase):
             remove_empty_space=True, remove_optional_attribute_quotes=False)
 
         self.assertEqual(html, test_html)
+
 
 # Run all tests
 #if __name__ == "__main__":

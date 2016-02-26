@@ -22,6 +22,7 @@ import pandas as pd
 import sys
 from bs4 import BeautifulSoup
 import copy
+import json
 
 def get_web_file(path):
     """Gets a file over http.
@@ -317,6 +318,23 @@ def clean_strings(iterable):
         except(AttributeError):
             retval.append(val)
     return retval
+
+
+def is_json(data):
+    """
+    Test if a string is valid json.
+
+    Args:
+        data: string
+
+    Returns:
+        boolean
+    """
+    try:
+        json_object = json.loads(data)
+    except(ValueError):
+        return False
+    return True
 
 
 def excel_to_html(path, sheetname='Sheet1', css_classes='', \
