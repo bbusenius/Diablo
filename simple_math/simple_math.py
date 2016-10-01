@@ -439,7 +439,8 @@ def take_home_pay(gross_pay, employer_match, taxes_and_fees, numtype='float'):
         return (float(gross_pay) + float(employer_match)) - sum(taxes_and_fees)
 
 def savings_rate(take_home_pay, spending, numtype='float'):
-    """Calculate net take-home pay including employer retirement savings match 
+    """
+    Calculate net take-home pay including employer retirement savings match 
     using the formula laid out by Mr. Money Mustache: 
     http://www.mrmoneymustache.com/2015/01/26/calculating-net-worth/
 
@@ -457,7 +458,7 @@ def savings_rate(take_home_pay, spending, numtype='float'):
     if numtype == 'decimal':
          try: 
             return ((Decimal(take_home_pay) - Decimal(spending)) / (Decimal(take_home_pay))) * Decimal(100.0)
-         except(InvalidOperation):
+         except(InvalidOperation, DivisionByZero): # Leave InvalidOperation for backwards compatibility
             return Decimal(0.0)
     else:
         try:
