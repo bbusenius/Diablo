@@ -456,9 +456,9 @@ def savings_rate(take_home_pay, spending, numtype='float'):
     """
 
     if numtype == 'decimal':
-         try: 
+        try: 
             return ((Decimal(take_home_pay) - Decimal(spending)) / (Decimal(take_home_pay))) * Decimal(100.0)
-         except(InvalidOperation, DivisionByZero): # Leave InvalidOperation for backwards compatibility
+        except(InvalidOperation, DivisionByZero): # Leave InvalidOperation for backwards compatibility
             return Decimal(0.0)
     else:
         try:
