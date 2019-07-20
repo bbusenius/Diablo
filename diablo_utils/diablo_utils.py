@@ -16,6 +16,53 @@
 # along with this program.  If not, see
 # <https://www.gnu.org/licenses/gpl-3.0.html/>.
 
+from inspect import getmembers, isfunction
+
+
+def cast_by_type(s: str, et: str):
+    """
+    Cast a string to a python data type based on an expected type.
+
+    Args:
+        s: string to cast.
+
+        et: expected type, string, should look something like,
+        "<class 'float'>".
+
+    Returns:
+        Mixed
+    """
+    if et == "<class 'float'>":
+        return float(s)
+    elif et == "<class 'int'>":
+        return int(s)
+    elif et == "<class 'bool'>":
+        return str2bool(s)
+    elif et == "<class 'list'>":
+        # This is risky because we don't know what types are in the list
+        # and we don't know how the list will be represented in the string.
+        # TODO - Better handling here
+        return s.split(',')
+
+
+def functs_from_mod(mod):
+    """
+    Builds a dictionary of functions from a module where keys
+    are function names.
+
+    Args:
+        mod: Python module
+
+    Returns:
+        dict of functions where the keys are function names.
+    """
+    # TODO - Move this to proper library
+    fun_dict = {}
+    for key, val in getmembers(mod):
+        if isfunction(val):
+            fun_dict[key] = val
+    return fun_dict
+
 
 def lazy_dotchain(func, fail_val=None):
     """
@@ -46,7 +93,21 @@ def lazy_dotchain(func, fail_val=None):
     try:
         try:
             return func()
-        except(TypeError):
+        except (TypeError):
             return func
     except (AttributeError):
         return fail_val
+
+
+def str2bool(s: str) -> bool:
+    """
+    Converts a string to a boolean.
+
+    Args:
+        s: string to convert to a boolean.
+
+    Returns:
+        bool
+    """
+    # TODO - Move this to proper library
+    return s.lower() in ('true', '1')
