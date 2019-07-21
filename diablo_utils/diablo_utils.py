@@ -19,9 +19,10 @@
 from inspect import getmembers, isfunction
 
 
-def cast_by_type(s: str, et: str):
+def cast_by_type(s: str, et: str, schar: str = ','):
     """
     Cast a string to a python data type based on an expected type.
+    Caution with booleans. Almost any string will cast to a bool.
 
     Args:
         s: string to cast.
@@ -29,20 +30,34 @@ def cast_by_type(s: str, et: str):
         et: expected type, string, should look something like,
         "<class 'float'>".
 
+        schar: split charactar, char to split on when a "<class 'list'>"
+        type is invoked.
+
     Returns:
         Mixed
     """
-    if et == "<class 'float'>":
-        return float(s)
-    elif et == "<class 'int'>":
-        return int(s)
-    elif et == "<class 'bool'>":
-        return str2bool(s)
-    elif et == "<class 'list'>":
-        # This is risky because we don't know what types are in the list
-        # and we don't know how the list will be represented in the string.
-        # TODO - Better handling here
-        return s.split(',')
+    try:
+        if et == "<class 'float'>":
+            return float(s)
+        elif et == "<class 'int'>":
+            return int(s)
+        elif et == "<class 'bool'>":
+            return str2bool(s)
+        elif et == 'typing.List[int]':
+            return [int(n) for n in s.split(schar)]
+        elif et == 'typing.List[float]':
+            return [float(n) for n in s.split(schar)]
+        elif et == "<class 'list'>":
+            raise TypeError(
+                'Untyped lists are not supported. Use something like typing.List[float] instead.'
+            )
+        else:
+            raise NotImplementedError(
+                'The expected type hasn\'t been implemented yet. Pull request?'
+            )
+    except (ValueError):
+        msg = 'The string you are casting and the expected type are mismatched.'
+        raise ValueError(msg)
 
 
 def functs_from_mod(mod):
@@ -109,5 +124,4 @@ def str2bool(s: str) -> bool:
     Returns:
         bool
     """
-    # TODO - Move this to proper library
     return s.lower() in ('true', '1')
