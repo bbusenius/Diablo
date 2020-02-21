@@ -1,4 +1,2 @@
-beautifulsoup4==4.4.1
-pandas
 phpserialize
 xlrd==0.9.4

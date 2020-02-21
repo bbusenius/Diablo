@@ -11,13 +11,12 @@ setup(
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'excel_to_html = commands:run_excel_to_html',
             'get_percentage = commands:run_get_percentage',
         ]
     },
     url='https://github.com/bbusenius/Diablo-Python',
     license='GNU GPLv3, see LICENSE.txt',
-    install_requires=['beautifulsoup4', 'pandas', 'phpserialize', 'xlrd'],
+    install_requires=['phpserialize', 'xlrd'],
     test_suite='tests',
     zip_safe=False,
 )

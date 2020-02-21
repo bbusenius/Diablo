@@ -142,6 +142,14 @@ var jsObject = {
 }
 ```
 
+## Developers
+
+### Run unit tests
+
+```
+python3 -m unittest discover tests -p '*_test.py'
+```
+
 [Read the documentation](https://diablo-python.readthedocs.org/en/latest/#module-convert_php)
 
 
