@@ -16,7 +16,7 @@ setup(
     },
     url='https://github.com/bbusenius/Diablo-Python',
     license='GNU GPLv3, see LICENSE.txt',
-    install_requires=['phpserialize', 'xlrd'],
+    install_requires=['phpserialize'],
     test_suite='tests',
     zip_safe=False,
 )
