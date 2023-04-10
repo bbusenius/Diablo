@@ -5,7 +5,7 @@ setup(
     name='diablo_python',
     description='Simple libraries and repurposable code '
     + 'for inclusion in projects and general use.',
-    version='0.0.2',
+    version='0.0.3',
     author='Brad Busenius',
     author_email='bbusenius@gmail.com',
     packages=find_packages(),
