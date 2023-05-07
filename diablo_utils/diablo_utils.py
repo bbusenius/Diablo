@@ -43,6 +43,8 @@ def cast_by_type(s: str, et: str, schar: str = ','):
             return int(s)
         elif et == "<class 'bool'>":
             return str2bool(s)
+        elif et == "<class 'str'>":
+            return s
         elif et == 'typing.List[int]':
             return [int(n) for n in s.split(schar)]
         elif et == 'typing.List[float]':

@@ -85,11 +85,13 @@ class test_cast_by_type(unittest.TestCase):
         val3 = d.cast_by_type('false', '<class \'bool\'>')
         val4 = d.cast_by_type('8,9,2', 'typing.List[int]')
         val5 = d.cast_by_type('8,9,2', 'typing.List[float]')
+        val6 = d.cast_by_type('test', '<class \'str\'>')
         self.assertEqual(val1, .2)
         self.assertEqual(val2, 8)
         self.assertEqual(val3, False)
         self.assertEqual(val4, [8, 9, 2])
         self.assertEqual(val5, [8.0, 9.0, 2.0])
+        self.assertEqual(val6, 'test')
 
     def test_untyped_list(self):
         self.assertRaises(TypeError, d.cast_by_type, '8,9,2', '<class \'list\'>')
